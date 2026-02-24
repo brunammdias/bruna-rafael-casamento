@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  background: #F8F6F2;
+  color: #3a3a3a;
+  text-align: center;
+}
+
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h1 {
+  font-size: 64px;
+  font-weight: 300;
+  color: #6B7D5C;
+  margin-bottom: 10px;
+}
+
+.date {
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+
+#countdown {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #A3B18A;
+}
+
+button {
+  margin-top: 30px;
+  padding: 12px 28px;
+  background: #6B7D5C;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+section {
+  padding: 80px 20px;
+}
+
+h2 {
+  font-size: 40px;
+  color: #6B7D5C;
+}
+
+input, select {
+  display: block;
+  margin: 15px auto;
+  padding: 10px;
+  width: 260px;
+}
