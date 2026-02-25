@@ -8,18 +8,18 @@
 
 <style>
 
-body {
+body{
   margin:0;
-  font-family:'Cormorant Garamond', serif;
   background:#F8F6F2;
+  font-family:'Cormorant Garamond', serif;
   color:#3A3A3A;
   text-align:center;
   overflow-x:hidden;
 }
 
-/* ---------------- INTRO SELO ---------------- */
+/* ================= INTRO ESTILO CONVITE FÍSICO ================= */
 
-.intro {
+.intro{
   position:fixed;
   width:100%;
   height:100vh;
@@ -27,115 +27,162 @@ body {
   display:flex;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
   z-index:999;
   transition:opacity 1s ease;
 }
 
-.seal {
-  width:150px;
-  height:150px;
-  border:2px solid #6B7D5C;
+.invite-card{
+  width:400px;
+  height:550px;
+  background:white;
+  box-shadow:0 15px 40px rgba(0,0,0,0.08);
+  border-radius:6px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  position:relative;
+  padding:40px;
+}
+
+.invite-card:before,
+.invite-card:after{
+  content:"";
+  position:absolute;
+  left:20px;
+  right:20px;
+  height:1px;
+  background:#E6E2DA;
+}
+
+.invite-card:before{ top:30px; }
+.invite-card:after{ bottom:30px; }
+
+/* SEL0 DE LACRE */
+
+.seal{
+  width:120px;
+  height:120px;
+  background:radial-gradient(circle at 30% 30%, #b44, #7b1e1e);
   border-radius:50%;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-size:40px;
-  letter-spacing:4px;
-  color:#6B7D5C;
+  font-size:32px;
+  color:white;
+  letter-spacing:3px;
+  font-family:'Playfair Display', serif;
   cursor:pointer;
-  transition:all 0.4s ease;
+  box-shadow:
+    inset -6px -6px 12px rgba(0,0,0,0.4),
+    inset 6px 6px 12px rgba(255,255,255,0.1),
+    0 8px 20px rgba(0,0,0,0.2);
+  transition:transform 0.4s ease;
 }
 
-.seal:hover {
-  transform:scale(1.1);
+.seal:hover{
+  transform:scale(1.05);
 }
 
-/* ---------------- CONTEÚDO ---------------- */
-
-.hidden {
-  opacity:0;
+.intro-text{
+  margin-top:30px;
+  font-size:18px;
+  color:#6B7D5C;
 }
 
-.section {
+/* ================= CONTEÚDO ================= */
+
+.hidden{ opacity:0; }
+
+.section{
   padding:100px 20px;
   max-width:900px;
   margin:auto;
   opacity:0;
   transform:translateY(40px);
   transition:all 1s ease;
+  position:relative;
 }
 
-.section.visible {
+.section.visible{
   opacity:1;
   transform:translateY(0);
 }
 
-h1 {
+h1{
   font-family:'Playfair Display', serif;
   font-size:64px;
   color:#6B7D5C;
   margin-bottom:10px;
 }
 
-.date {
+h2{
+  font-family:'Playfair Display', serif;
+  font-size:48px;
+  color:#6B7D5C;
+  margin-bottom:25px;
+}
+
+.date{
   font-size:22px;
   letter-spacing:2px;
 }
 
-.countdown {
+/* Countdown */
+
+.countdown{
   display:flex;
   justify-content:center;
-  gap:30px;
-  margin-top:30px;
+  gap:40px;
+  margin-top:40px;
 }
 
-.count-box {
-  text-align:center;
-}
-
-.count-box span {
+.count-box span{
   display:block;
-  font-size:40px;
+  font-size:42px;
   color:#6B7D5C;
 }
 
-.location {
+.location{
   font-size:28px;
-  margin:10px 0;
+  margin:15px 0;
 }
 
-.time {
+.time{
   font-size:22px;
+  margin-bottom:15px;
 }
 
-a {
+a{
   text-decoration:none;
   color:#6B7D5C;
   font-size:20px;
 }
 
-iframe {
+iframe{
   margin-top:30px;
   border-radius:12px;
 }
 
-input, select, textarea {
-  width:300px;
+/* RSVP */
+
+input, select, textarea{
+  width:320px;
   padding:12px;
   margin:12px auto;
   display:block;
   font-size:18px;
+  font-family:'Cormorant Garamond', serif;
   border:1px solid #ddd;
   border-radius:6px;
 }
 
-textarea {
-  height:120px;
+textarea{
+  height:140px;
   resize:none;
 }
 
-button {
+button{
   margin-top:20px;
   padding:14px 32px;
   background:#6B7D5C;
@@ -145,37 +192,50 @@ button {
   cursor:pointer;
 }
 
+/* ================= FOLHAS DE OLIVEIRA ================= */
+
+.olive-top{
+  position:absolute;
+  top:-40px;
+  left:-40px;
+  width:150px;
+  opacity:0.15;
+}
+
+.olive-bottom{
+  position:absolute;
+  bottom:-40px;
+  right:-40px;
+  width:150px;
+  opacity:0.15;
+}
+
 </style>
 </head>
 <body>
 
-<!-- INTRO COM SELO -->
+<!-- INTRO -->
 <div class="intro" id="intro">
-  <div class="seal" onclick="openInvite()">B&R</div>
-  <p style="margin-top:20px;color:#A3B18A;">Clique para abrir</p>
+  <div class="invite-card">
+    <div class="seal" onclick="openInvite()">B&R</div>
+    <div class="intro-text">Clique para abrir o convite</div>
+  </div>
 </div>
 
-<!-- CONTEÚDO PRINCIPAL -->
+<!-- CONTEÚDO -->
 <div id="mainContent" class="hidden">
 
 <section class="section">
+  <img class="olive-top" src="https://i.imgur.com/0XKzn3G.png">
   <h1>Bruna & Rafael</h1>
   <p class="date">19 de Setembro de 2026</p>
 
   <div class="countdown">
-    <div class="count-box">
-      <span id="days"></span>
-      Dias
-    </div>
-    <div class="count-box">
-      <span id="hours"></span>
-      Horas
-    </div>
-    <div class="count-box">
-      <span id="minutes"></span>
-      Min
-    </div>
+    <div class="count-box"><span id="days"></span>Dias</div>
+    <div class="count-box"><span id="hours"></span>Horas</div>
+    <div class="count-box"><span id="minutes"></span>Min</div>
   </div>
+  <img class="olive-bottom" src="https://i.imgur.com/0XKzn3G.png">
 </section>
 
 <section class="section">
@@ -203,7 +263,7 @@ button {
 </section>
 
 <section class="section">
-  <h2>RSVP</h2>
+  <h2>Podemos contar com a vossa presença?</h2>
 
   <form>
     <input type="text" placeholder="Nome completo" required>
@@ -215,7 +275,7 @@ button {
       <option>Não poderei estar presente</option>
     </select>
 
-    <button type="submit">Enviar confirmação</button>
+    <button type="submit">Enviar Resposta</button>
   </form>
 </section>
 
@@ -234,7 +294,7 @@ function openInvite(){
   },1000);
 }
 
-/* COUNTDOWN DINÂMICO */
+/* COUNTDOWN */
 
 const weddingDate = new Date("September 19, 2026 15:00:00").getTime();
 
