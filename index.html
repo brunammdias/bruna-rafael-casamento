@@ -10,74 +10,103 @@
 
 body {
   margin:0;
-  font-family: 'Cormorant Garamond', serif;
+  font-family:'Cormorant Garamond', serif;
   background:#F8F6F2;
   color:#3A3A3A;
   text-align:center;
+  overflow-x:hidden;
 }
 
-.hero {
+/* ---------------- INTRO SELO ---------------- */
+
+.intro {
+  position:fixed;
+  width:100%;
   height:100vh;
+  background:#F8F6F2;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
+  z-index:999;
+  transition:opacity 1s ease;
 }
 
-.initials {
-  width:120px;
-  height:120px;
+.seal {
+  width:150px;
+  height:150px;
   border:2px solid #6B7D5C;
   border-radius:50%;
   display:flex;
-  align-items:center;
   justify-content:center;
-  font-size:36px;
+  align-items:center;
+  font-size:40px;
   letter-spacing:4px;
   color:#6B7D5C;
-  margin-bottom:40px;
+  cursor:pointer;
+  transition:all 0.4s ease;
+}
+
+.seal:hover {
+  transform:scale(1.1);
+}
+
+/* ---------------- CONTEÚDO ---------------- */
+
+.hidden {
+  opacity:0;
+}
+
+.section {
+  padding:100px 20px;
+  max-width:900px;
+  margin:auto;
+  opacity:0;
+  transform:translateY(40px);
+  transition:all 1s ease;
+}
+
+.section.visible {
+  opacity:1;
+  transform:translateY(0);
 }
 
 h1 {
   font-family:'Playfair Display', serif;
   font-size:64px;
-  font-weight:400;
   color:#6B7D5C;
-  margin:0;
+  margin-bottom:10px;
 }
 
 .date {
   font-size:22px;
-  margin-top:10px;
   letter-spacing:2px;
 }
 
-#countdown {
-  margin-top:20px;
-  font-size:20px;
-  color:#A3B18A;
+.countdown {
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  margin-top:30px;
 }
 
-.section {
-  padding:100px 20px;
-  max-width:800px;
-  margin:auto;
+.count-box {
+  text-align:center;
 }
 
-.section h2 {
-  font-size:48px;
+.count-box span {
+  display:block;
+  font-size:40px;
   color:#6B7D5C;
-  margin-bottom:20px;
 }
 
 .location {
-  font-size:26px;
-  margin-bottom:10px;
+  font-size:28px;
+  margin:10px 0;
 }
 
 .time {
   font-size:22px;
-  margin-bottom:20px;
 }
 
 a {
@@ -91,11 +120,7 @@ iframe {
   border-radius:12px;
 }
 
-form {
-  margin-top:40px;
-}
-
-input, select {
+input, select, textarea {
   width:300px;
   padding:12px;
   margin:12px auto;
@@ -103,6 +128,11 @@ input, select {
   font-size:18px;
   border:1px solid #ddd;
   border-radius:6px;
+}
+
+textarea {
+  height:120px;
+  resize:none;
 }
 
 button {
@@ -119,21 +149,43 @@ button {
 </head>
 <body>
 
-<section class="hero">
-  <div class="initials">B&R</div>
+<!-- INTRO COM SELO -->
+<div class="intro" id="intro">
+  <div class="seal" onclick="openInvite()">B&R</div>
+  <p style="margin-top:20px;color:#A3B18A;">Clique para abrir</p>
+</div>
+
+<!-- CONTEÚDO PRINCIPAL -->
+<div id="mainContent" class="hidden">
+
+<section class="section">
   <h1>Bruna & Rafael</h1>
   <p class="date">19 de Setembro de 2026</p>
-  <div id="countdown"></div>
+
+  <div class="countdown">
+    <div class="count-box">
+      <span id="days"></span>
+      Dias
+    </div>
+    <div class="count-box">
+      <span id="hours"></span>
+      Horas
+    </div>
+    <div class="count-box">
+      <span id="minutes"></span>
+      Min
+    </div>
+  </div>
 </section>
 
 <section class="section">
   <h2>Cerimónia</h2>
   <div class="location">Igreja Paroquial de Casais da Igreja</div>
   <div class="time">15h00</div>
-  <a target="_blank" href="https://maps.google.com/maps?hl=pt-PT&gl=pt&um=1&ie=UTF-8&fb=1&sa=X&ftid=0xd1880d4b1df650b:0x3690aa62dd9b54f0">Ver no mapa</a>
+  <a target="_blank" href="https://maps.app.goo.gl/NNXk6Tdb4irwJZ41A">Ver no mapa</a>
 
   <iframe 
-    src="https://maps.google.com/maps?q=Igreja%20Paroquial%20de%20Casais%20da%20Igreja&t=&z=15&ie=UTF8&iwloc=&output=embed"
+    src="https://maps.google.com/maps?q=Casais%20da%20Igreja%20Portugal&t=&z=15&ie=UTF8&iwloc=&output=embed"
     width="100%" height="300">
   </iframe>
 </section>
@@ -151,38 +203,54 @@ button {
 </section>
 
 <section class="section">
-  <h2>Podemos contar com a vossa presença?</h2>
+  <h2>RSVP</h2>
 
-  <form id="rsvpForm">
-    <input type="text" id="nome" placeholder="Nome completo" required>
-    <input type="number" id="quantidade" placeholder="Número de pessoas" min="1">
-    <input type="text" id="nomesConvidados" placeholder="Nome das pessoas que acompanham">
+  <form>
+    <input type="text" placeholder="Nome completo" required>
+    <input type="number" placeholder="Número de pessoas" min="1">
+    <textarea placeholder="Nome das pessoas que acompanham"></textarea>
 
-    <select id="presenca">
-      <option value="Sim">Confirmo presença</option>
-      <option value="Não">Não poderei estar presente</option>
+    <select>
+      <option>Confirmo presença</option>
+      <option>Não poderei estar presente</option>
     </select>
 
-    <button type="submit">Enviar resposta</button>
+    <button type="submit">Enviar confirmação</button>
   </form>
-
 </section>
+
+</div>
 
 <script>
 
-const weddingDate = new Date("September 19, 2026 15:00:00").getTime();
-const countdown = document.getElementById("countdown");
+function openInvite(){
+  document.getElementById("intro").style.opacity="0";
+  setTimeout(()=>{
+    document.getElementById("intro").style.display="none";
+    document.getElementById("mainContent").classList.remove("hidden");
+    document.querySelectorAll(".section").forEach(sec=>{
+      sec.classList.add("visible");
+    });
+  },1000);
+}
 
-setInterval(function() {
+/* COUNTDOWN DINÂMICO */
+
+const weddingDate = new Date("September 19, 2026 15:00:00").getTime();
+
+setInterval(function(){
   const now = new Date().getTime();
   const distance = weddingDate - now;
 
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  document.getElementById("days").innerHTML =
+    Math.floor(distance / (1000 * 60 * 60 * 24));
 
-  countdown.innerHTML = days + " dias • " + hours + " horas • " + minutes + " minutos";
-}, 1000);
+  document.getElementById("hours").innerHTML =
+    Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+  document.getElementById("minutes").innerHTML =
+    Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+},1000);
 
 </script>
 
