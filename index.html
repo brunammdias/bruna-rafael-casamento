@@ -6,7 +6,7 @@
 
   <title>Bruna &amp; Rafael</title>
 
-  <!-- SEO / Share (muito importante para ficar “profissional” ao partilhar o link) -->
+  <!-- SEO / Share -->
   <meta name="description" content="Convite de casamento Bruna & Rafael — 19 de Setembro de 2026. Cerimónia e Copo de Água. Confirmação de presença." />
   <meta property="og:title" content="Bruna & Rafael — Convite de Casamento" />
   <meta property="og:description" content="19 de Setembro de 2026 • Cerimónia e Copo de Água • Confirmação de presença." />
@@ -14,35 +14,30 @@
   <meta property="og:image" content="https://bruna-rafael-casamento.vercel.app/og-image.jpg" />
   <meta name="theme-color" content="#6B7D5C" />
 
-  <!-- Fonts (preconnect melhora performance) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      /* Paleta */
       --bg:#F8F6F2;
       --ink:#2F2F2F;
       --muted: rgba(47,47,47,.68);
       --accent:#6B7D5C;
 
-      /* Layout */
       --sheet-radius: 14px;
       --sheet-w: min(760px, 94vw);
 
       --paper-pad-x: clamp(18px, 4vw, 34px);
-      --paper-pad-y: clamp(30px, 6vw, 52px);
+      --paper-pad-y: clamp(26px, 5.2vw, 44px); /* um pouco menos para reduzir “branco” */
 
-      /* Coluna “invisível” (alinha ilustrações, countdown, mapas, form, etc.) */
       --content-col: min(560px, 100%);
 
-      /* Tipos */
       --h1: clamp(36px, 6.2vw, 58px);
       --h2: clamp(28px, 5.6vw, 46px);
       --p:  clamp(18px, 2.6vw, 21px);
 
-      /* Ritmo */
       --space-1: 8px;
       --space-2: 12px;
       --space-3: 16px;
@@ -64,14 +59,12 @@
       color: var(--ink);
       text-align:center;
       overflow-x:hidden;
-
       background:
         radial-gradient(circle at 20% 20%, rgba(0,0,0,0.02), transparent 42%),
         radial-gradient(circle at 80% 70%, rgba(0,0,0,0.02), transparent 45%),
         var(--bg);
     }
 
-    /* trava scroll durante a intro (mobile fica muito mais “premium”) */
     body.lock-scroll{ overflow: hidden; }
 
     /* ================= INTRO ================= */
@@ -93,7 +86,6 @@
       border-radius: var(--sheet-radius);
       overflow: hidden;
       background: url("envelope-intro.png") center/cover no-repeat;
-
       box-shadow: 0 22px 60px rgba(15,15,15,0.16);
       transform: translateZ(0);
     }
@@ -176,7 +168,7 @@
 
     .paper-sheet{
       width: var(--sheet-w);
-      margin: clamp(24px, 5vw, 60px) auto clamp(42px, 7vw, 80px) auto;
+      margin: clamp(18px, 4vw, 44px) auto clamp(40px, 7vw, 80px) auto; /* menos “branco” em cima */
       position:relative;
       border-radius: var(--sheet-radius);
       overflow:hidden;
@@ -192,7 +184,6 @@
         var(--bg);
     }
 
-    /* borda interna subtil (sensação “impresso”) */
     .paper-sheet::before{
       content:"";
       position:absolute;
@@ -203,7 +194,6 @@
       z-index: 1;
     }
 
-    /* Grain “papel real” */
     .paper-sheet::after{
       content:"";
       position:absolute;
@@ -222,14 +212,14 @@
       z-index: 3;
     }
 
-    /* Coluna principal (usa em TODAS as secções) */
     .content-col{
       width: var(--content-col);
       margin: 0 auto;
     }
 
+    /* Secções */
     .section{
-      padding: clamp(30px, 6vw, 66px) 0;
+      padding: clamp(28px, 5.4vw, 56px) 0;
       opacity:0;
       transform:translateY(22px);
       transition: opacity .9s ease, transform .9s ease;
@@ -240,10 +230,16 @@
       transform:translateY(0);
     }
 
-    /* Separador entre secções com mais “ar” */
+    /* ✅ Reduz “branco” só na PRIMEIRA secção (cabeçalho) */
+    .section:first-of-type{
+      padding-top: clamp(14px, 3vw, 24px);
+      padding-bottom: clamp(22px, 4vw, 36px);
+    }
+
+    /* Separador */
     .section + .section{
       position:relative;
-      padding-top: calc(clamp(30px, 6vw, 66px) + 48px);
+      padding-top: calc(clamp(28px, 5.4vw, 56px) + 48px);
     }
     .section + .section::before{
       content:"";
@@ -254,12 +250,13 @@
       height: clamp(70px, 11vw, 100px);
       transform: translateX(-50%) rotate(90deg);
       background: url("separador leaves.png") center/contain no-repeat;
-      opacity: 0.55;                       /* MAIS visível */
+      opacity: 0.55;
       filter: contrast(130%) brightness(92%);
-      mix-blend-mode: multiply;            /* mantém efeito “impresso” */
+      mix-blend-mode: multiply;
       pointer-events:none;
     }
 
+    /* Tipos */
     h1{
       font-family:'Playfair Display', serif;
       font-size: var(--h1);
@@ -291,19 +288,21 @@
       color: rgba(47,47,47,.75);
       font-variant-caps: all-small-caps;
       margin-top: 6px;
+      margin-bottom: 18px; /* ✅ espaço entre data e countdown */
     }
 
-    /* Cabeçalho com oliveiras */
+    /* ✅ Top leaves (agora vai ter largura definida via JS + limites) */
     .top-leaves{
-      margin: 0 auto 18px auto;
+      margin: 0 auto 14px auto;
       display: flex;
       justify-content: center;
+      width: auto; /* JS vai definir */
     }
-    
+
     .top-leaves img{
-      display: block;
-      width: 100%;              /* IMPORTANTÍSSIMO */
-      max-width: none;
+      display:block;
+      width: 100%;
+      max-width: 260px; /* ✅ evita ficar gigante mesmo em títulos largos */
       opacity: 0.55;
       filter: contrast(110%) brightness(96%);
       mix-blend-mode: multiply;
@@ -343,7 +342,6 @@
       color: rgba(47,47,47,.70);
     }
 
-    /* Local e hora */
     .location{
       font-size: clamp(20px, 3.5vw, 28px);
       margin: var(--space-2) 0 var(--space-1) 0;
@@ -357,7 +355,6 @@
       color: rgba(47,47,47,.72);
     }
 
-    /* Links/botões */
     a{
       display:inline-flex;
       align-items:center;
@@ -368,12 +365,10 @@
       color: var(--accent);
       font-size: 18px;
       line-height: 1;
-
       padding: 10px 16px;
       border-radius: 12px;
       border: 1px solid rgba(107,125,92,0.22);
       background: rgba(255,255,255,0.38);
-
       transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
     }
     a:hover{
@@ -386,7 +381,6 @@
       box-shadow: 0 0 0 4px rgba(107,125,92,0.18);
     }
 
-    /* Ilustrações (alinhadas à coluna) */
     .location-illustration{
       width: var(--content-col);
       margin: var(--space-5) auto var(--space-3) auto;
@@ -395,7 +389,6 @@
       mix-blend-mode:multiply;
     }
 
-    /* Mapas (alinhados à coluna) */
     .map-embed{
       width: var(--content-col);
       margin: var(--space-4) auto 0 auto;
@@ -411,7 +404,6 @@
       display:block;
     }
 
-    /* Form */
     form{
       margin-top: var(--space-3);
       display:grid;
@@ -486,7 +478,6 @@
       min-height: 22px;
     }
 
-    /* ================= MOBILE AJUSTES ================= */
     @media (max-width:520px){
       .envelope-real{ border-radius: 12px; }
 
@@ -519,6 +510,11 @@
       :root{
         --content-col: min(520px, 100%);
       }
+
+      /* no mobile, top-leaves ainda mais contido */
+      .top-leaves img{
+        max-width: 210px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -547,15 +543,14 @@
 
         <!-- CABEÇALHO -->
         <section class="section" aria-label="Cabeçalho">
-          <div class="content-col header-frame">
-            
-            <div class="top-leaves">
-             <img src="top-leaves.png" alt="" aria-hidden="true">
+          <div class="content-col">
+
+            <div class="top-leaves" id="topLeaves">
+              <img src="top-leaves.png" alt="" aria-hidden="true">
             </div>
-            
-              <h1 id="mainTitle">Bruna &amp; Rafael</h1>
-              <p class="date">19 de Setembro de 2026</p>
-            
+
+            <h1 id="mainTitle">Bruna &amp; Rafael</h1>
+            <p class="date">19 de Setembro de 2026</p>
           </div>
 
           <div class="countdown" aria-label="Contagem decrescente">
@@ -682,40 +677,51 @@
       });
     }
 
+    // ✅ FUNÇÃO QUE FALTAVA (se não existir, o JS dá erro e o countdown “morre”)
+    function alignLeavesToTitle(){
+      const title = document.getElementById("mainTitle");
+      const leaves = document.getElementById("topLeaves");
+      if(!title || !leaves) return;
+
+      const w = title.getBoundingClientRect().width;
+
+      // “editorial”: ligeiramente mais estreito que o título (92%)
+      const target = Math.max(160, Math.min(w * 0.92, 320)); // min 160px, max 320px
+      leaves.style.width = `${target}px`;
+    }
+
     function openInvite(){
-      // anima saída do envelope
       setTimeout(()=> envelope.classList.add("exit"), 80);
 
       setTimeout(()=>{
-        // remove intro
         intro.style.display = "none";
         document.body.classList.remove("lock-scroll");
 
-        // mostra conteúdo
         main.classList.remove("hidden");
         main.removeAttribute("aria-hidden");
 
         revealSectionsWithStagger();
 
-        // foca o título (acessibilidade / UX pro)
+        // foco (acessibilidade)
         const title = document.getElementById("mainTitle");
         title.setAttribute("tabindex", "-1");
         title.focus({ preventScroll: true });
         title.removeAttribute("tabindex");
 
+        // ✅ alinhamento das leaves (e atualiza ao redimensionar)
         alignLeavesToTitle();
         window.addEventListener("resize", alignLeavesToTitle);
 
-        // inicia countdown ao abrir (para evitar gastar recursos antes)
+        // ✅ countdown inicia aqui
         updateCountdown();
-        setInterval(updateCountdown, 60_000); // sem segundos -> atualiza 1x/min
+        setInterval(updateCountdown, 60_000);
       }, 1050);
     }
 
     openBtn.addEventListener("click", openInvite);
 
-    // ========= Countdown (sem segundos) =========
-    // Setembro em PT costuma ser horário de verão (+01:00). Se quiseres mudar, altera o offset.
+    // ========= Countdown =========
+    // NOTA: manter o offset +01:00 (horário de verão em setembro) é ok para Portugal.
     const weddingDate = new Date("2026-09-19T14:30:00+01:00").getTime();
 
     function pad2(n){ return String(n).padStart(2, "0"); }
@@ -727,6 +733,8 @@
       const daysEl = document.getElementById("days");
       const hoursEl = document.getElementById("hours");
       const minutesEl = document.getElementById("minutes");
+
+      if(!daysEl || !hoursEl || !minutesEl) return;
 
       if(distance <= 0){
         daysEl.textContent = "0";
@@ -748,7 +756,7 @@
       minutesEl.textContent = pad2(minutes);
     }
 
-    // ========= RSVP (feedback “profissional”) =========
+    // ========= RSVP (simulado por agora) =========
     const form = document.getElementById("rsvpForm");
     const btn  = document.getElementById("sendBtn");
     const msg  = document.getElementById("formMsg");
@@ -761,10 +769,7 @@
       btn.textContent = "A enviar…";
 
       try{
-        // Aqui é onde ligas a um backend (Formspree/Netlify/Google Forms/API).
-        // Por agora deixei “simulado” para te dar o acabamento de UX.
         await new Promise(r => setTimeout(r, 900));
-
         msg.textContent = "Resposta registada. Obrigado! ✨";
         form.reset();
       }catch(err){
