@@ -306,20 +306,23 @@ button.send-btn:hover{
     height: 160px;
   }
 
-  /* ramos: mais pequenos e reposicionados */
+  /* ramos (mantendo os 90º como tens no desktop) */
   .seal-olive{
-    width: 95px;
-    opacity: 0.75;
+    width: 90px;
+    opacity: 0.80;
+    filter: brightness(92%) contrast(130%);
   }
 
   .seal-olive.left{
-    top: 56%;
-    transform: translate(-165px, 92px) rotate(0deg);
+    left:50%;
+    top:56%;
+    transform: translate(-150px, 70px) rotate(-90deg);
   }
 
   .seal-olive.right{
-    top: 56%;
-    transform: translate(70px, 92px) rotate(0deg) scaleX(-1);
+    left:50%;
+    top:56%;
+    transform: translate(60px, 70px) rotate(90deg) scaleX(-1);
   }
 
   /* folha do conteúdo mais confortável no mobile */
