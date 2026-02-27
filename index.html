@@ -202,6 +202,28 @@ button{
   height:auto;
   display:block;
 } 
+
+/* 🌿 Ramos de oliveira decorativos */
+
+.olive-branch{
+  position:fixed;
+  width:220px;
+  opacity:0.35;
+  pointer-events:none;
+  filter: grayscale(20%) brightness(95%) contrast(90%);
+  mix-blend-mode:multiply;
+}
+
+.olive-top-left{
+  top:40px;
+  left:40px;
+}
+
+.olive-bottom-right{
+  bottom:40px;
+  right:40px;
+  transform: rotate(180deg);
+}  
   
 </style>
 </head>
@@ -309,5 +331,9 @@ setInterval(function(){
 
 </script>
 
+<img src="oliveira.png" class="olive-branch olive-top-left" alt="Ramo de oliveira decorativo">
+
+<img src="oliveira.png" class="olive-branch olive-bottom-right" alt="Ramo de oliveira decorativo">  
+  
 </body>
 </html>
