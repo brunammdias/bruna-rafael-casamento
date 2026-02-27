@@ -250,13 +250,13 @@
       position:absolute;
       top: 12px;
       left: 50%;
-      width: clamp(62px, 10vw, 92px);
-      height: clamp(62px, 10vw, 92px);
+      width: clamp(70px, 11vw, 100px);
+      height: clamp(70px, 11vw, 100px);
       transform: translateX(-50%) rotate(90deg);
       background: url("separador leaves.png") center/contain no-repeat;
-      opacity: .30;
-      filter: contrast(115%) brightness(98%);
-      mix-blend-mode: multiply;
+      opacity: 0.55;                       /* MAIS visível */
+      filter: contrast(130%) brightness(92%);
+      mix-blend-mode: multiply;            /* mantém efeito “impresso” */
       pointer-events:none;
     }
 
@@ -294,21 +294,16 @@
     }
 
     /* Cabeçalho com oliveiras */
-    .header-frame{
-      position:relative;
-      padding: 18px 0 0 0;
-      margin-bottom: var(--space-5);
-    }
-
     .top-leaves{
-      width: 100%;
+      margin: 0 auto 18px auto;
       display: flex;
       justify-content: center;
-      margin-bottom: 18px; /* espaço antes do nome */
     }
     
     .top-leaves img{
-      width: clamp(120px, 22vw, 180px);
+      display: block;
+      width: 100%;              /* IMPORTANTÍSSIMO */
+      max-width: none;
       opacity: 0.55;
       filter: contrast(110%) brightness(96%);
       mix-blend-mode: multiply;
@@ -707,6 +702,9 @@
         title.setAttribute("tabindex", "-1");
         title.focus({ preventScroll: true });
         title.removeAttribute("tabindex");
+
+        alignLeavesToTitle();
+        window.addEventListener("resize", alignLeavesToTitle);
 
         // inicia countdown ao abrir (para evitar gastar recursos antes)
         updateCountdown();
