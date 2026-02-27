@@ -293,29 +293,25 @@
       margin-top: 6px;
     }
 
-    /* Cabeçalho com oliveiras alinhadas à coluna */
+    /* Cabeçalho com oliveiras */
     .header-frame{
       position:relative;
       padding: 18px 0 0 0;
       margin-bottom: var(--space-5);
     }
 
-    .header-olive{
-      position:absolute;
-      top: -2px;
-      width: clamp(82px, 13vw, 112px);
-      opacity: .70;
-      filter: brightness(95%) contrast(115%);
-      mix-blend-mode:multiply;
-      pointer-events:none;
+    .top-leaves{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px; /* espaço antes do nome */
     }
-    .header-olive.left{
-      left: 0;
-      transform: translate(0px, -40px) rotate(-10deg);
-    }
-    .header-olive.right{
-      right: 0;
-      transform: translate(0px, -40px) rotate(10deg) scaleX(-1);
+    
+    .top-leaves img{
+      width: clamp(120px, 22vw, 180px);
+      opacity: 0.55;
+      filter: contrast(110%) brightness(96%);
+      mix-blend-mode: multiply;
     }
 
     /* Countdown */
@@ -557,11 +553,14 @@
         <!-- CABEÇALHO -->
         <section class="section" aria-label="Cabeçalho">
           <div class="content-col header-frame">
-            <img src="vector oliveira.png" class="header-olive left" alt="" aria-hidden="true">
-            <img src="vector oliveira.png" class="header-olive right" alt="" aria-hidden="true">
-
-            <h1 id="mainTitle">Bruna &amp; Rafael</h1>
-            <p class="date">19 de Setembro de 2026</p>
+            
+            <div class="top-leaves">
+             <img src="top-leaves.png" alt="" aria-hidden="true">
+            </div>
+            
+              <h1 id="mainTitle">Bruna &amp; Rafael</h1>
+              <p class="date">19 de Setembro de 2026</p>
+            
           </div>
 
           <div class="countdown" aria-label="Contagem decrescente">
