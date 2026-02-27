@@ -285,11 +285,76 @@ button.send-btn:hover{
 
 /* mobile ajustes */
 @media (max-width:520px){
-  h1{ font-size:50px; }
-  h2{ font-size:38px; }
-  .seal-real{ width:120px; height:120px; }
-  .envelope-real .intro-olive{ width:78px; }
-  .countdown{ gap:26px; }
+
+  /* envelope mais confortável no ecrã */
+  .envelope-real{
+    width: 94vw;
+    border-radius: 12px;
+  }
+
+  /* texto de instrução no topo, mais legível e sem colar nas margens */
+  .envelope-real .intro-text{
+    top: 14px;
+    font-size: 14px;
+    padding: 0 14px;
+  }
+
+  /* hotspot (zona de clique do selo) ajustado ao selo no mobile */
+  .seal-hotspot{
+    top: 56%;        /* ligeiramente acima (ajusta se preciso) */
+    width: 160px;
+    height: 160px;
+  }
+
+  /* ramos: mais pequenos e reposicionados */
+  .seal-olive{
+    width: 95px;
+    opacity: 0.75;
+  }
+
+  .seal-olive.left{
+    top: 56%;
+    transform: translate(-165px, 92px) rotate(0deg);
+  }
+
+  .seal-olive.right{
+    top: 56%;
+    transform: translate(70px, 92px) rotate(0deg) scaleX(-1);
+  }
+
+  /* folha do conteúdo mais confortável no mobile */
+  .paper-sheet{
+    width: 94vw;
+    margin: 30px auto 50px auto;
+    border-radius: 12px;
+  }
+
+  /* secções com menos padding para não “estourar” */
+  .section{
+    padding: 70px 18px;
+  }
+
+  /* tipografia ajustada */
+  h1{ font-size: 46px; }
+  h2{ font-size: 34px; }
+
+  .location{ font-size: 22px; }
+  .time{ font-size: 18px; }
+
+  /* countdown mais compacto */
+  .countdown{
+    gap: 18px;
+    margin-top: 26px;
+  }
+  .count-box span{
+    font-size: 34px;
+  }
+
+  /* inputs a ocupar quase toda a largura */
+  input, select, textarea{
+    width: 88%;
+    font-size: 18px;
+  }
 }
 </style>
 </head>
