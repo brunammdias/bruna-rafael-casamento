@@ -203,12 +203,12 @@ button{
   display:block;
 } 
 
-/* 🌿 Ramos decorativos */
+/* 🌿 Ramos decorativos conteúdo */
 
 .section-olive{
   position:absolute;
-  width:260px;              /* ligeiramente maior */
-  opacity:0.8;              /* mais visível */
+  width:180px;              /* mais pequenas */
+  opacity:0.8;
   pointer-events:none;
   filter: brightness(95%) contrast(110%);
   mix-blend-mode:multiply;
@@ -224,6 +224,26 @@ button{
   right:20px;
   transform: rotate(180deg);
 }
+
+/* 🌿 Ramos na intro (dentro do convite) */
+.intro-olive {
+  position:absolute;
+  width:140px;              /* mais pequenas aqui */
+  opacity:0.6;
+  pointer-events:none;
+  filter: brightness(95%) contrast(110%);
+}
+
+.intro-olive.top-left {
+  top:10px;
+  left:10px;
+}
+
+.intro-olive.bottom-right {
+  bottom:10px;
+  right:10px;
+  transform: rotate(180deg);
+}
   
 </style>
 </head>
@@ -231,11 +251,11 @@ button{
 
 <!-- INTRO -->
 <div class="intro" id="intro">
-  
-  <img src="vector oliveira.png" class="section-olive olive-top-left" alt="">
-  <img src="vector oliveira.png" class="section-olive olive-bottom-right" alt="">
-  
   <div class="invite-card">
+    <!-- ramos dentro do convite -->
+    <img src="vector oliveira.png" class="intro-olive top-left" alt="">
+    <img src="vector oliveira.png" class="intro-olive bottom-right" alt="">
+
     <div class="seal" onclick="openInvite()">B&R</div>
     <div class="intro-text">Clique para abrir o convite</div>
   </div>
