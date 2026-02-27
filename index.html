@@ -80,7 +80,7 @@
     /* Texto topo — DESCE um pouco no desktop */
     .intro-text{
       position:absolute;
-      top: 18px; /* antes 14px */
+      top: 20px; /* antes 14px */
       left:0; right:0;
       padding: 0 16px;
       font-size: 15px;
@@ -187,7 +187,7 @@
     /* Separador floral + ESPAÇO extra depois dele */
     .section + .section{
       position:relative;
-      padding-top: calc(clamp(30px, 6vw, 66px) + 34px); /* mais espaço após o separador */
+      padding-top: calc(clamp(30px, 6vw, 66px) + 48px); /* mais espaço após o separador */
     }
     .section + .section::before{
       content:"";
@@ -349,12 +349,8 @@
       gap: 12px;
       justify-items:center;
     }
-    .form-col{
-      width: var(--content-col);
-      margin: 0 auto;
-    }
     input, select, textarea{
-      width: 100%;
+      width: min(520px, 100%);
       padding: 12px 14px;
       font-size: 18px;
       font-family:'Cormorant Garamond', serif;
@@ -391,7 +387,7 @@
 
       .intro-text{
         top: 14px; /* no mobile pode ficar ligeiramente mais acima que o desktop */
-        font-size: 14px;
+        font-size: 12px;
         padding: 0 14px;
       }
 
@@ -403,17 +399,17 @@
 
       /* folhas do selo: ainda mais pequenas e mais perto do selo */
       .seal-olive{
-        width: 74px; /* menor do que antes */
+        width: 65px; /* menor do que antes */
         opacity: 0.80;
         filter: brightness(92%) contrast(130%);
       }
       .seal-olive.left{
         top:56%;
-        transform: translate(-104px, 0px) rotate(-90deg);
+        transform: translate(-104px, -10px) rotate(-90deg);
       }
       .seal-olive.right{
         top:56%;
-        transform: translate(26px, 0px) rotate(90deg) scaleX(-1);
+        transform: translate(26px, -10px) rotate(90deg) scaleX(-1);
       }
 
       /* coluna ligeiramente mais estreita no mobile para “respirar” */
