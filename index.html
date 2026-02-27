@@ -80,10 +80,10 @@
     /* Texto topo — DESCE um pouco no desktop */
     .intro-text{
       position:absolute;
-      top: 20px; /* antes 14px */
+      top: 25px; /* antes 14px */
       left:0; right:0;
       padding: 0 16px;
-      font-size: 15px;
+      font-size: 18px;
       color: var(--accent);
       opacity: .95;
       letter-spacing: .3px;
@@ -252,11 +252,11 @@
     /* alinhadas às “margens” da coluna (como ilustrações) */
     .header-olive.left{
       left: 0;
-      transform: rotate(-8deg);
+      transform: translate(0px, 15px) rotate(-8deg);
     }
     .header-olive.right{
       right: 0;
-      transform: rotate(8deg) scaleX(-1);
+      transform: translate(0px, 15px) rotate(8deg) scaleX(-1);
     }
 
     /* Countdown — alinhado pela coluna e caixas um pouco menores */
@@ -399,16 +399,18 @@
 
       /* folhas do selo: ainda mais pequenas e mais perto do selo */
       .seal-olive{
-        width: 65px; /* menor do que antes */
+        width: 55px; /* menor do que antes */
         opacity: 0.80;
         filter: brightness(92%) contrast(130%);
       }
       .seal-olive.left{
         top:56%;
+        left: 0;
         transform: translate(-104px, -10px) rotate(-90deg);
       }
       .seal-olive.right{
         top:56%;
+        right: 0;
         transform: translate(26px, -10px) rotate(90deg) scaleX(-1);
       }
 
