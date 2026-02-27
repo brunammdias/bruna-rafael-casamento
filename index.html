@@ -203,27 +203,27 @@ button{
   display:block;
 } 
 
-/* 🌿 Ramos de oliveira decorativos */
+/* 🌿 Ramos decorativos */
 
-.olive-branch{
-  position:fixed;
-  width:220px;
-  opacity:0.35;
+.section-olive{
+  position:absolute;
+  width:260px;              /* ligeiramente maior */
+  opacity:0.8;              /* mais visível */
   pointer-events:none;
-  filter: grayscale(20%) brightness(95%) contrast(90%);
+  filter: brightness(95%) contrast(110%);
   mix-blend-mode:multiply;
 }
 
 .olive-top-left{
-  top:40px;
-  left:40px;
+  top:20px;
+  left:20px;
 }
 
 .olive-bottom-right{
-  bottom:40px;
-  right:40px;
+  bottom:20px;
+  right:20px;
   transform: rotate(180deg);
-}  
+}
   
 </style>
 </head>
@@ -231,6 +231,10 @@ button{
 
 <!-- INTRO -->
 <div class="intro" id="intro">
+  
+  <img src="vector oliveira.png" class="section-olive olive-top-left" alt="">
+  <img src="vector oliveira.png" class="section-olive olive-bottom-right" alt="">
+  
   <div class="invite-card">
     <div class="seal" onclick="openInvite()">B&R</div>
     <div class="intro-text">Clique para abrir o convite</div>
@@ -241,6 +245,8 @@ button{
 <div id="mainContent" class="hidden">
 
 <section class="section">
+  <img src="vector oliveira.png" class="section-olive olive-top-left" alt="">
+  <img src="vector oliveira.png" class="section-olive olive-bottom-right" alt="">
   <h1>Bruna & Rafael</h1>
   <p class="date">19 de Setembro de 2026</p>
 
@@ -254,7 +260,7 @@ button{
 <section class="section">
   <h2>Cerimónia</h2>
   <div class="location">Igreja Paroquial de Casais da Igreja</div>
-  <div class="time">15h00</div>
+  <div class="time">14h30</div>
   <div class="location-illustration">
   <img src="vector igreja.png" alt="Ilustração da Igreja"></div>
   <a target="_blank" href="https://maps.app.goo.gl/NNXk6Tdb4irwJZ41A">Ver no mapa</a>
@@ -280,6 +286,8 @@ button{
 </section>
 
 <section class="section">
+  <img src="vector oliveira.png" class="section-olive olive-top-left" alt="">
+  <img src="vector oliveira.png" class="section-olive olive-bottom-right" alt="">
   <h2>Podemos contar com a vossa presença?</h2>
 
   <form>
@@ -313,7 +321,7 @@ function openInvite(){
 
 /* COUNTDOWN */
 
-const weddingDate = new Date("September 19, 2026 15:00:00").getTime();
+const weddingDate = new Date("September 19, 2026 14:30:00").getTime();
 
 setInterval(function(){
   const now = new Date().getTime();
@@ -330,10 +338,6 @@ setInterval(function(){
 },1000);
 
 </script>
-
-<img src="vector oliveira.png" class="olive-branch olive-top-left" alt="Ramo de oliveira decorativo">
-
-<img src="vector oliveira.png" class="olive-branch olive-bottom-right" alt="Ramo de oliveira decorativo">  
   
 </body>
 </html>
