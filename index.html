@@ -252,11 +252,11 @@
     /* alinhadas às “margens” da coluna (como ilustrações) */
     .header-olive.left{
       left: 0;
-      transform: translate(0px, -25px) rotate(-8deg);
+      transform: translate(0px, -40px) rotate(-10deg);
     }
     .header-olive.right{
       right: 0;
-      transform: translate(0px, -25px) rotate(8deg) scaleX(-1);
+      transform: translate(0px, -40px) rotate(10deg) scaleX(-1);
     }
 
     /* Countdown — alinhado pela coluna e caixas um pouco menores */
@@ -380,6 +380,12 @@
       transform: translateY(-2px);
       background:#5E7050;
     }
+    .form-col{
+      width: var(--content-col);
+      margin: 0 auto;
+      display: grid;
+      gap: 12px; /* ou 14px se quiseres mais ar */
+    }
 
     /* ================= MOBILE AJUSTES ================= */
     @media (max-width:520px){
@@ -405,11 +411,11 @@
       }
       .seal-olive.left{
         top:56%;
-        transform: translate(-104px, -10px) rotate(-90deg);
+        transform: translate(-102px, -10px) rotate(-90deg);
       }
       .seal-olive.right{
         top:56%;
-        transform: translate(26px, -10px) rotate(90deg) scaleX(-1);
+        transform: translate(46px, -10px) rotate(90deg) scaleX(-1);
       }
 
       /* coluna ligeiramente mais estreita no mobile para “respirar” */
@@ -422,7 +428,7 @@
 
       /* separador com respiro continua */
       .section + .section{
-        padding-top: calc(clamp(30px, 6vw, 66px) + 32px);
+        padding-top: calc(clamp(30px, 6vw, 66px) + 48px);
       }
     }
 
