@@ -19,11 +19,7 @@
       --paper-pad-x: clamp(18px, 4vw, 34px);
       --paper-pad-y: clamp(30px, 6vw, 52px);
 
-      /* Coluna interna para alinhar tudo (countdown, ilustrações, form, etc.) */
-      --content-col: min(560px, 100%);
-
-      /* Tipos */
-      --h1: clamp(36px, 6.2vw, 56px); /* reduzido para não sobrepor oliveiras */
+      --h1: clamp(40px, 7vw, 64px);
       --h2: clamp(28px, 5.6vw, 46px);
       --p:  clamp(18px, 2.6vw, 22px);
     }
@@ -66,7 +62,7 @@
       transform: translateZ(0);
     }
 
-    /* grain envelope */
+    /* grain em cima do envelope (papel real) */
     .envelope-real::after{
       content:"";
       position:absolute;
@@ -78,10 +74,10 @@
       pointer-events:none;
     }
 
-    /* texto no topo (desceu ligeiramente no desktop) */
+    /* TEXTO NO TOPO (desktop + mobile) */
     .intro-text{
       position:absolute;
-      top: 30px; /* DESCEU um pouco */
+      top: 14px;
       left: 0; right: 0;
       padding: 0 16px;
       font-size: 15px;
@@ -139,7 +135,7 @@
       100%{ transform: translateY(-120%); opacity:0; }
     }
 
-    /* ================= CONTEÚDO ================= */
+    /* ================= CONTEÚDO (PAPEL) ================= */
     .hidden{ opacity:0; }
 
     .paper-sheet{
@@ -149,6 +145,8 @@
       border-radius: var(--sheet-radius);
       overflow:hidden;
       box-shadow: 0 18px 60px rgba(0,0,0,0.08);
+
+      /* base suave */
       background:
         radial-gradient(circle at 30% 18%, rgba(0,0,0,0.03), transparent 44%),
         radial-gradient(circle at 72% 80%, rgba(0,0,0,0.025), transparent 46%),
@@ -156,7 +154,7 @@
         var(--bg);
     }
 
-    /* grain papel igual envelope */
+    /* paper grain "real" tipo envelope */
     .paper-sheet::after{
       content:"";
       position:absolute;
@@ -185,10 +183,10 @@
       transform:translateY(0);
     }
 
-    /* Separador floral + ESPAÇO DEPOIS */
+    /* Separador floral (substitui linha) */
     .section + .section{
       position:relative;
-      padding-top: calc(clamp(30px, 6vw, 66px) + 34px); /* mais espaço */
+      padding-top: calc(clamp(30px, 6vw, 66px) + 16px);
     }
     .section + .section::before{
       content:"";
@@ -229,49 +227,36 @@
       opacity:0.9;
     }
 
-    /* Coluna de alinhamento (margens iguais às ilustrações e ao form) */
-    .content-col{
-      width: var(--content-col);
-      margin: 0 auto;
-    }
-
-    /* Cabeçalho emoldurado + oliveiras alinhadas à mesma coluna */
+    /* Cabeçalho emoldurado (oliveiras mais pequenas e só aqui) */
     .header-frame{
       position:relative;
-      padding: 18px 0 0 0;
-      margin: 0 auto 24px auto;
-      width: var(--content-col);  /* ALINHADO */
+      padding: 22px 0 0 0;
+      margin-bottom: 22px; /* espaço antes do countdown */
     }
-
     .header-olive{
       position:absolute;
-      top: -6px;
-      width: clamp(82px, 13vw, 112px);
+      top: -4px;
+      width: clamp(88px, 14vw, 120px);
       opacity: .70;
       filter: brightness(95%) contrast(115%);
       mix-blend-mode:multiply;
       pointer-events:none;
     }
-
-    /* Agora as oliveiras alinham com as margens da coluna */
     .header-olive.left{
-      left: 0;
-      transform: translateX(-6px) rotate(-7deg);
-      transform-origin: left center;
+      left: 50%;
+      transform: translateX(calc(-50% - 175px)) rotate(-8deg);
     }
     .header-olive.right{
-      right: 0;
-      transform: translateX(6px) rotate(7deg) scaleX(-1);
-      transform-origin: right center;
+      left: 50%;
+      transform: translateX(calc(-50% + 175px)) rotate(8deg) scaleX(-1);
     }
 
-    /* Countdown (SEM segundos) alinhado na mesma coluna */
+    /* Countdown com 4 caixas (inclui segundos) */
     .countdown{
-      width: var(--content-col);
-      margin: 0 auto;
       display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: clamp(10px, 2.6vw, 16px);
+      margin-top: 0;
       align-items: stretch;
     }
     .count-box{
@@ -320,10 +305,17 @@
     }
     a:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.5); }
 
-    /* Ilustrações alinhadas à coluna */
+    iframe{
+      margin-top: 18px;
+      border-radius:12px;
+      width:100%;
+      height: clamp(240px, 45vw, 320px);
+      border:0;
+    }
+
     .location-illustration{
-      width: var(--content-col);
-      margin: 18px auto 10px auto;
+      max-width: 560px;
+      margin: 22px auto 14px auto;
       opacity:0.68;
       filter: grayscale(100%) contrast(82%) brightness(104%);
       mix-blend-mode:multiply;
@@ -334,18 +326,15 @@
       display:block;
     }
 
-    /* Form alinhado à coluna */
+    /* Form */
     form{
       margin-top: 14px;
-      width: var(--content-col);
-      margin-left:auto;
-      margin-right:auto;
       display:grid;
       gap: 12px;
-      justify-items:stretch;
+      justify-items:center;
     }
     input, select, textarea{
-      width: 100%;
+      width: min(520px, 100%);
       padding: 12px 14px;
       font-size: 18px;
       font-family:'Cormorant Garamond', serif;
@@ -361,7 +350,6 @@
     textarea{ height: 140px; resize:none; }
 
     .send-btn{
-      justify-self:center;
       margin-top: 6px;
       padding: 14px 32px;
       background: var(--accent);
@@ -371,7 +359,6 @@
       cursor:pointer;
       border-radius: 12px;
       transition: transform .18s ease, background .18s ease;
-      width: fit-content;
     }
     .send-btn:hover{
       transform: translateY(-2px);
@@ -383,41 +370,51 @@
       .envelope-real{ border-radius: 12px; }
 
       .intro-text{
-        top: 16px; /* no mobile já ficava ok */
+        top: 12px;
         font-size: 14px;
         padding: 0 14px;
       }
 
+      /* hotspot ajustado */
       .seal-hotspot{
         top: 56%;
         width: 160px;
         height: 160px;
       }
 
-      /* oliveiras do selo: AINDA mais pequenas e mais perto */
+      /* folhas do selo: MAIS PEQUENAS e MAIS JUNTAS ao selo */
       .seal-olive{
-        width: 74px;
+        width: 86px;
         opacity: 0.80;
         filter: brightness(92%) contrast(130%);
       }
       .seal-olive.left{
         top:56%;
-        transform: translate(-104px, 0px) rotate(-90deg);
+        transform: translate(-122px, 0px) rotate(-90deg);
       }
       .seal-olive.right{
         top:56%;
-        transform: translate(28px, 0px) rotate(90deg) scaleX(-1);
+        transform: translate(36px, 0px) rotate(90deg) scaleX(-1);
       }
 
-      /* separador com mais respiro também */
-      .section + .section{
-        padding-top: calc(clamp(30px, 6vw, 66px) + 40px);
+      /* countdown 4 caixas: em mobile fica 2x2 */
+      .countdown{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      /* countdown 3 caixas: em mobile 3 colunas ainda funciona, mas mais compacto */
-      .count-box small{ font-size: 15px; }
+      /* header olive frame mais juntinho e mais pequeno no mobile */
+      .header-olive{
+        width: 86px;
+      }
+      .header-olive.left{
+        transform: translateX(calc(-50% - 130px)) rotate(-8deg);
+      }
+      .header-olive.right{
+        transform: translateX(calc(-50% + 130px)) rotate(8deg) scaleX(-1);
+      }
     }
 
+    /* Redução de movimento */
     @media (prefers-reduced-motion: reduce){
       .section, .envelope-real.exit{ transition:none !important; animation:none !important; }
     }
@@ -428,11 +425,14 @@
   <!-- INTRO -->
   <div class="intro" id="intro">
     <div class="envelope-real" id="envelope">
+      <!-- texto no topo -->
       <div class="intro-text">Clique no selo para abrir</div>
 
+      <!-- ramos abaixo do selo -->
       <img src="vector oliveira.png" class="seal-olive left" alt="" aria-hidden="true">
       <img src="vector oliveira.png" class="seal-olive right" alt="" aria-hidden="true">
 
+      <!-- hotspot do selo -->
       <button class="seal-hotspot" onclick="openInvite()" aria-label="Abrir convite"></button>
     </div>
   </div>
@@ -444,15 +444,15 @@
 
         <section class="section" aria-label="Cabeçalho">
           <div class="header-frame">
+            <!-- oliveiras pequenas só a emoldurar título+data -->
             <img src="vector oliveira.png" class="header-olive left" alt="" aria-hidden="true">
             <img src="vector oliveira.png" class="header-olive right" alt="" aria-hidden="true">
 
             <h1>Bruna &amp; Rafael</h1>
             <p class="date">19 de Setembro de 2026</p>
           </div>
-          </div>
-        
 
+          <!-- espaço extra já garantido pelo margin-bottom do header-frame -->
           <div class="countdown" aria-label="Contagem decrescente">
             <div class="count-box">
               <span id="days">—</span>
@@ -466,6 +466,10 @@
               <span id="minutes">—</span>
               <small>Min</small>
             </div>
+            <div class="count-box">
+              <span id="seconds">—</span>
+              <small>Seg</small>
+            </div>
           </div>
         </section>
 
@@ -478,8 +482,14 @@
             <img src="vector igreja.png" alt="Ilustração da Igreja">
           </div>
 
-          <!-- mantém só o link/botão -->
           <a target="_blank" rel="noopener" href="https://maps.app.goo.gl/NNXk6Tdb4irwJZ41A">Ver no mapa</a>
+
+          <iframe
+            title="Mapa da Igreja"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://maps.google.com/maps?q=39.586546,-8.523528&z=17&output=embed">
+          </iframe>
         </section>
 
         <section class="section" aria-label="Copo de Água">
@@ -491,13 +501,18 @@
             <img src="vector quinta.png" alt="Ilustração da Quinta">
           </div>
 
-          <!-- mantém só o link/botão -->
           <a target="_blank" rel="noopener" href="https://maps.app.goo.gl/CoPeXxQ7RcsmeTpz6">Ver no mapa</a>
+
+          <iframe
+            title="Mapa da Quinta"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://maps.google.com/maps?q=Quinta%20das%20Carrascosas&t=&z=15&ie=UTF8&iwloc=&output=embed">
+          </iframe>
         </section>
 
         <section class="section" aria-label="RSVP">
           <h2>Podemos contar convosco?</h2>
-          </div>
 
           <form>
             <input type="text" placeholder="Nome completo" required aria-label="Nome completo">
@@ -536,8 +551,9 @@
       }, 1050);
     }
 
-    /* COUNTDOWN (sem segundos) */
+    /* COUNTDOWN (com segundos) */
     const weddingDate = new Date("September 19, 2026 14:30:00").getTime();
+
     function pad2(n){ return String(n).padStart(2, "0"); }
 
     function updateCountdown(){
@@ -547,11 +563,13 @@
       const daysEl = document.getElementById("days");
       const hoursEl = document.getElementById("hours");
       const minutesEl = document.getElementById("minutes");
+      const secondsEl = document.getElementById("seconds");
 
       if(distance <= 0){
         daysEl.textContent = "0";
         hoursEl.textContent = "00";
         minutesEl.textContent = "00";
+        secondsEl.textContent = "00";
         return;
       }
 
@@ -562,10 +580,14 @@
       distance %= (1000 * 60 * 60);
 
       const minutes = Math.floor(distance / (1000 * 60));
+      distance %= (1000 * 60);
+
+      const seconds = Math.floor(distance / 1000);
 
       daysEl.textContent = days;
       hoursEl.textContent = pad2(hours);
       minutesEl.textContent = pad2(minutes);
+      secondsEl.textContent = pad2(seconds);
     }
 
     updateCountdown();
