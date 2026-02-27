@@ -87,6 +87,87 @@ body{
   color:#6B7D5C;
 }
 
+/* ================= INTRO ENVELOPE ================= */
+
+.envelope{
+  width:420px;
+  height:300px;
+  background:#F8F6F2;
+  position:relative;
+  border-radius:10px;
+  box-shadow:0 18px 40px rgba(0,0,0,0.12);
+  overflow:hidden;
+}
+
+/* textura subtil de papel */
+.envelope::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.15'/%3E%3C/svg%3E");
+  opacity:0.2;
+  pointer-events:none;
+}
+
+.env-body{
+  position:absolute;
+  inset:0;
+}
+
+.env-flap{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:55%;
+  background:#F8F6F2;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transition:transform 1s ease;
+}
+
+/* Selo de lacre */
+.wax-seal{
+  position:absolute;
+  top:58%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+  background:radial-gradient(circle at 30% 30%, #9CAF88, #5E7050);
+  box-shadow:
+    0 12px 22px rgba(0,0,0,0.3),
+    inset 0 8px 12px rgba(255,255,255,0.25),
+    inset 0 -8px 12px rgba(0,0,0,0.25);
+}
+
+.wax-seal span{
+  font-family:'Playfair Display', serif;
+  font-size:30px;
+  letter-spacing:3px;
+  color:white;
+}
+
+/* Animação */
+.envelope.open .env-flap{
+  transform:rotateX(160deg);
+}
+
+.envelope.exit{
+  animation:slideUp 1s forwards;
+}
+
+@keyframes slideUp{
+  to{
+    transform:translateY(-120%);
+    opacity:0;
+  }
+}
+
 /* ================= CONTEÚDO ================= */
 
 .hidden{ opacity:0; }
@@ -250,16 +331,30 @@ button{
 </head>
 <body>
 
-<!-- INTRO -->
+<!-- INTRO (ENVELOPE) -->
 <div class="intro" id="intro">
-  <div class="invite-card">
-    <!-- ramos dentro do convite -->
+
+  <div class="envelope" id="envelope">
+
+    <!-- Ramos dentro do envelope -->
     <img src="vector oliveira.png" class="intro-olive top-left" alt="">
     <img src="vector oliveira.png" class="intro-olive bottom-right" alt="">
 
-    <div class="seal" onclick="openInvite()">B&R</div>
-    <div class="intro-text">Clique para abrir o convite</div>
+    <!-- Aba do envelope -->
+    <div class="env-flap" id="envFlap"></div>
+
+    <!-- Corpo do envelope -->
+    <div class="env-body"></div>
+
+    <!-- Selo -->
+    <button class="wax-seal" onclick="openInvite()">
+      <span>B&amp;R</span>
+    </button>
+
+    <div class="intro-text">Clique no selo para abrir</div>
+
   </div>
+
 </div>
 
 <!-- CONTEÚDO -->
@@ -328,14 +423,22 @@ button{
 <script>
 
 function openInvite(){
-  document.getElementById("intro").style.opacity="0";
+  const envelope = document.getElementById("envelope");
+  const intro = document.getElementById("intro");
+
+  envelope.classList.add("open");
+
   setTimeout(()=>{
-    document.getElementById("intro").style.display="none";
+    envelope.classList.add("exit");
+  },900);
+
+  setTimeout(()=>{
+    intro.style.display="none";
     document.getElementById("mainContent").classList.remove("hidden");
     document.querySelectorAll(".section").forEach(sec=>{
       sec.classList.add("visible");
     });
-  },1000);
+  },1600);
 }
 
 /* COUNTDOWN */
