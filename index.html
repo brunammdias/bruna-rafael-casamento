@@ -49,8 +49,9 @@
       --lh-title: 1.08;
 
       /* ajuste fino das folhas “a sair do rebordo” */
-      --deco-bleed: 8px;      /* ✅ toca no rebordo (quase sem sair) */
-      --deco-width: min(760px, 98%);              /* largura máxima da moldura */
+      --deco-bleed: 34px;             /* quanto sai para fora do rebordo */
+      --deco-overhang: 42px;          /* quanto “passa” para os cantos (lado esquerdo/direito) */
+      --deco-safe: 74px;              /* espaço extra dentro do papel para não bater no conteúdo */
     }
 
     *{ box-sizing:border-box; }
@@ -182,32 +183,48 @@
     .paper-deco{
     position:absolute;
     left: 50%;
-    width: var(--deco-width);
     transform: translateX(-50%);
     pointer-events:none;
-    z-index: 999; /* ✅ sempre por cima */
+    z-index: 999; /* por cima como grinalda */
+  
+    /* ✅ sai dos cantos do papel */
+    width: calc(100% + var(--deco-overhang));
     }
     
-    .paper-deco img{
-    width: 100%;
-    height: auto;
-    display:block;
-    /* ✅ “esvanecido” como o separador */
-    opacity: 0.55;
-    filter: contrast(130%) brightness(92%);
-    mix-blend-mode: multiply;
-    }
-
-    /* topo: “nasce” por fora */
+    /* posicionamento */
     .paper-deco.top{
       top: calc(var(--deco-bleed) * -1);
     }
-
-    /* fundo: mesma imagem rodada 180º */
     .paper-deco.bottom{
       bottom: calc(var(--deco-bleed) * -1);
       transform: translateX(-50%) rotate(180deg);
       transform-origin: center;
+    }
+    
+    /* ✅ “tinta impressa / aquarela no papel” */
+    .paper-deco img{
+    width: 100%;
+    height: auto;
+    display:block;
+  
+    opacity: 0.52;                       /* mais parecido ao separador */
+    filter: contrast(130%) brightness(92%);
+    mix-blend-mode: multiply;
+  
+    /* micro suavização (parece impressão, menos “digital nítido”) */
+    transform: translateZ(0);
+    }
+  
+    /* ✅ grain extra em cima da grinalda (igual à folha) */
+    .paper-deco::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+    pointer-events:none;
     }
 
     .paper-sheet{
@@ -251,9 +268,10 @@
 
     .paper-inner{
       position:relative;
-      padding: var(--paper-pad-y) var(--paper-pad-x);
+      padding-top: calc(var(--paper-pad-y) + var(--deco-safe));
+      padding-bottom: calc(var(--paper-pad-y) + var(--deco-safe));
       z-index: 3;
-    }
+      }
 
     .content-col{
       width: var(--content-col);
