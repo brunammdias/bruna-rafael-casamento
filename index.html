@@ -48,10 +48,17 @@
       --lh-body: 1.55;
       --lh-title: 1.08;
 
-      /* ajuste fino das folhas “a sair do rebordo” */
-      --deco-bleed: 34px;             /* quanto sai para fora do rebordo */
-      --deco-overhang: 42px;          /* quanto “passa” para os cantos (lado esquerdo/direito) */
-      --deco-safe: 74px;              /* espaço extra dentro do papel para não bater no conteúdo */
+      /* ===== Grinalda ===== */
+      --deco-bleed: 34px;  /* quanto sai para fora do papel (topo e fundo) */
+
+      /* ✅ MAIS importante para “sair dos cantos” do rebordo interno */
+      --deco-overhang: clamp(140px, 20vw, 220px);
+
+      /* ✅ distância igual no topo e no fundo (controla o “respiro” do conteúdo) */
+      --deco-safe: clamp(74px, 8vw, 96px);
+
+      /* secções */
+      --section-pad: clamp(28px, 5.4vw, 56px);
     }
 
     *{ box-sizing:border-box; }
@@ -171,27 +178,23 @@
     /* ================= CONTEÚDO ================= */
     .hidden{ opacity:0; pointer-events:none; }
 
-    /* ✅ Wrapper que permite elementos “saírem” do rebordo */
     .paper-wrap{
       width: var(--sheet-w);
       margin: clamp(18px, 4vw, 44px) auto clamp(40px, 7vw, 80px) auto;
       position: relative;
-      overflow: visible; /* <- essencial para as folhas saírem */
+      overflow: visible;
     }
 
-    /* Folhas decorativas (topo e fundo) */
+    /* ===== Grinalda (topo e fundo) ===== */
     .paper-deco{
-    position:absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    pointer-events:none;
-    z-index: 999; /* por cima como grinalda */
-  
-    /* ✅ sai dos cantos do papel */
-    width: calc(100% + var(--deco-overhang));
+      position:absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events:none;
+      z-index: 999;
+      width: calc(100% + var(--deco-overhang)); /* ✅ sai dos cantos da moldura interna */
     }
-    
-    /* posicionamento */
+
     .paper-deco.top{
       top: calc(var(--deco-bleed) * -1);
     }
@@ -200,31 +203,28 @@
       transform: translateX(-50%) rotate(180deg);
       transform-origin: center;
     }
-    
-    /* ✅ “tinta impressa / aquarela no papel” */
+
     .paper-deco img{
-    width: 100%;
-    height: auto;
-    display:block;
-  
-    opacity: 0.52;                       /* mais parecido ao separador */
-    filter: contrast(130%) brightness(92%);
-    mix-blend-mode: multiply;
-  
-    /* micro suavização (parece impressão, menos “digital nítido”) */
-    transform: translateZ(0);
+      width: 100%;
+      height: auto;
+      display:block;
+
+      /* já está “boa cor” e impresso */
+      opacity: 0.52;
+      filter: contrast(130%) brightness(92%);
+      mix-blend-mode: multiply;
+      transform: translateZ(0);
     }
-  
-    /* ✅ grain extra em cima da grinalda (igual à folha) */
+
     .paper-deco::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
-    opacity: 0.18;
-    mix-blend-mode: multiply;
-    pointer-events:none;
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+      opacity: 0.18;
+      mix-blend-mode: multiply;
+      pointer-events:none;
     }
 
     .paper-sheet{
@@ -232,7 +232,7 @@
       position:relative;
       z-index: 1;
       border-radius: var(--sheet-radius);
-      overflow:hidden; /* mantém cantos e textura perfeitos */
+      overflow:hidden;
       box-shadow:
         0 18px 50px rgba(15,15,15,0.10),
         0 2px 0 rgba(255,255,255,0.35) inset;
@@ -244,6 +244,7 @@
         var(--bg);
     }
 
+    /* moldura/rebordo interno */
     .paper-sheet::before{
       content:"";
       position:absolute;
@@ -266,12 +267,13 @@
       z-index: 2;
     }
 
+    /* ✅ aqui é onde garantimos o MESMO espaço topo/fundo */
     .paper-inner{
       position:relative;
       padding-top: calc(var(--paper-pad-y) + var(--deco-safe));
       padding-bottom: calc(var(--paper-pad-y) + var(--deco-safe));
       z-index: 3;
-      }
+    }
 
     .content-col{
       width: var(--content-col);
@@ -279,7 +281,7 @@
     }
 
     .section{
-      padding: clamp(28px, 5.4vw, 56px) 0;
+      padding: var(--section-pad) 0;
       opacity:0;
       transform:translateY(22px);
       transition: opacity .9s ease, transform .9s ease;
@@ -290,16 +292,16 @@
       transform:translateY(0);
     }
 
-    /* reduz branco só na primeira secção */
-    .section:first-of-type{
-      padding-top: clamp(10px, 2.2vw, 18px);
-      padding-bottom: clamp(22px, 4vw, 36px);
-    }
+    /* ✅ para o topo e fundo ficarem realmente simétricos:
+       a primeira secção não adiciona “extra” em cima
+       e a última não adiciona “extra” em baixo */
+    .section:first-of-type{ padding-top: 0; }
+    .section:last-of-type{ padding-bottom: 0; }
 
     /* Separador */
     .section + .section{
       position:relative;
-      padding-top: calc(clamp(28px, 5.4vw, 56px) + 48px);
+      padding-top: calc(var(--section-pad) + 48px);
     }
     .section + .section::before{
       content:"";
@@ -347,7 +349,7 @@
       color: rgba(47,47,47,.75);
       font-variant-caps: all-small-caps;
       margin-top: 6px;
-      margin-bottom: 18px; /* espaço entre data e countdown */
+      margin-bottom: 18px;
     }
 
     /* Countdown */
@@ -545,13 +547,12 @@
         transform: translate(-96px, -10px) rotate(-90deg);
       }
       .seal-olive.right{
-        top:56%;
         transform: translate(40px, -10px) rotate(90deg) scaleX(-1);
       }
 
-      /* no mobile, um pouco menos “bleed” para não cortar */
       :root{
         --deco-bleed: 26px;
+        --deco-overhang: 170px; /* ainda sai dos cantos mas sem exagero */
       }
     }
 
@@ -577,12 +578,10 @@
   <!-- CONTEÚDO -->
   <div id="mainContent" class="hidden" aria-hidden="true">
     <div class="paper-wrap">
-      <!-- ✅ Folhas “a sair do rebordo” (topo) -->
       <div class="paper-deco top" aria-hidden="true">
         <img src="top-leaves.png" alt="">
       </div>
 
-      <!-- ✅ Folhas “a sair do rebordo” (fundo) -->
       <div class="paper-deco bottom" aria-hidden="true">
         <img src="top-leaves.png" alt="">
       </div>
@@ -745,7 +744,6 @@
 
     openBtn.addEventListener("click", openInvite);
 
-    // Countdown
     const weddingDate = new Date("2026-09-19T14:30:00+01:00").getTime();
 
     function pad2(n){ return String(n).padStart(2, "0"); }
