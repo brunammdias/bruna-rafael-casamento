@@ -62,25 +62,46 @@ body{
   pointer-events:none;
 }
 
-/* ================= OLIVEIRAS ACOMPANHAR O SELO (INTRO) ================= */
+/* ================= INTRO: ZONA CLICÁVEL NO SELO (HOTSPOT) ================= */
+
+/* botão invisível por cima do selo da imagem */
+.seal-hotspot{
+  position:absolute;
+  left:50%;
+  top:58%;
+  transform: translate(-50%, -50%);
+  width:190px;
+  height:190px;
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  z-index:10;
+}
+
+/* ================= INTRO: RAMOS ABAIXO DO SELO ================= */
 
 .seal-olive{
   position:absolute;
-  width:110px;
-  opacity:0.65;                 /* mais nítidas */
-  filter: brightness(92%) contrast(125%);
+  width:125px;
+  opacity:0.75;                 /* mais nítidas */
+  filter: brightness(92%) contrast(130%);
   mix-blend-mode:multiply;
   pointer-events:none;
+  z-index:6;                    /* por baixo do hotspot */
 }
 
-/* ramo esquerdo */
+/* ramo esquerdo, abaixo do selo */
 .seal-olive.left{
-  transform: rotate(-10deg);
+  left:50%;
+  top:58%;
+  transform: translate(-220px, 95px) rotate(-12deg);
 }
 
-/* ramo direito (espelho) */
+/* ramo direito, abaixo do selo (espelho) */
 .seal-olive.right{
-  transform: rotate(10deg) scaleX(-1);
+  left:50%;
+  top:58%;
+  transform: translate(95px, 95px) rotate(12deg) scaleX(-1);
 }
 
 /* texto na intro */
@@ -279,8 +300,12 @@ button.send-btn:hover{
 <div class="intro" id="intro">
   <div class="envelope-real" id="envelope">
 
-    <img src="vector oliveira.png" class="intro-olive top-left" alt="">
-    <img src="vector oliveira.png" class="intro-olive bottom-right" alt="">
+    <!-- Ramos abaixo do selo (esquerda e direita) -->
+    <img src="vector oliveira.png" class="seal-olive left" alt="">
+    <img src="vector oliveira.png" class="seal-olive right" alt="">
+
+    <!-- Zona invisível de clique na área do selo (na própria imagem) -->
+    <button class="seal-hotspot" onclick="openInvite()" aria-label="Abrir convite"></button>
 
     <div class="intro-text">Clique no selo para abrir</div>
   </div>
@@ -359,18 +384,11 @@ button.send-btn:hover{
 function openInvite(){
   const envelope = document.getElementById("envelope");
   const intro = document.getElementById("intro");
-  const seal = document.querySelector(".seal-real");
-
-  // micro “press” no selo
-  if (seal){
-    seal.style.transform = "translate(-50%, -50%) scale(0.96)";
-    setTimeout(()=>{ seal.style.transform = "translate(-50%, -50%) scale(1.02)"; }, 130);
-  }
 
   // envelope sobe
   setTimeout(()=>{
     envelope.classList.add("exit");
-  }, 250);
+  }, 80);
 
   // mostra conteúdo
   setTimeout(()=>{
@@ -379,7 +397,7 @@ function openInvite(){
     document.querySelectorAll(".section").forEach(sec=>{
       sec.classList.add("visible");
     });
-  }, 1150);
+  }, 1050);
 }
 
 /* COUNTDOWN */
