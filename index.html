@@ -49,7 +49,7 @@
       --lh-title: 1.08;
 
       /* ajuste fino das folhas “a sair do rebordo” */
-      --deco-bleed: clamp(26px, 4.6vw, 52px);     /* quanto sai para fora */
+      --deco-bleed: 10px;      /* ✅ toca no rebordo (quase sem sair) */
       --deco-width: min(760px, 98%);              /* largura máxima da moldura */
     }
 
@@ -180,20 +180,22 @@
 
     /* Folhas decorativas (topo e fundo) */
     .paper-deco{
-      position:absolute;
-      left: 50%;
-      width: var(--deco-width);
-      transform: translateX(-50%);
-      pointer-events:none;
-      z-index: 50; /* acima do papel */
+    position:absolute;
+    left: 50%;
+    width: var(--deco-width);
+    transform: translateX(-50%);
+    pointer-events:none;
+    z-index: 999; /* ✅ sempre por cima */
     }
-
+    
     .paper-deco img{
-      width: 100%;
-      height: auto;
-      display:block;
-      opacity: 0.95;
-      filter: contrast(105%) brightness(100%);
+    width: 100%;
+    height: auto;
+    display:block;
+    /* ✅ “esvanecido” como o separador */
+    opacity: 0.55;
+    filter: contrast(130%) brightness(92%);
+    mix-blend-mode: multiply;
     }
 
     /* topo: “nasce” por fora */
@@ -211,6 +213,7 @@
     .paper-sheet{
       width: 100%;
       position:relative;
+      z-index: 1;
       border-radius: var(--sheet-radius);
       overflow:hidden; /* mantém cantos e textura perfeitos */
       box-shadow:
