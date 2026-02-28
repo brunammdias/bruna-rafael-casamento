@@ -30,7 +30,7 @@
       --sheet-w: min(760px, 94vw);
 
       --paper-pad-x: clamp(18px, 4vw, 34px);
-      --paper-pad-y: clamp(26px, 5.2vw, 44px);
+      --paper-pad-y: clamp(26px, 5.2vw, 44px); /* um pouco menos para reduzir “branco” */
 
       --content-col: min(560px, 100%);
 
@@ -47,18 +47,6 @@
 
       --lh-body: 1.55;
       --lh-title: 1.08;
-
-      /* ===== Grinalda ===== */
-      --deco-bleed: 34px;  /* quanto sai para fora do papel (topo e fundo) */
-
-      /* ✅ MAIS importante para “sair dos cantos” do rebordo interno */
-      --deco-overhang: clamp(240px, 22vw, 360px);
-
-      /* ✅ distância igual no topo e no fundo (controla o “respiro” do conteúdo) */
-      --deco-safe: clamp(74px, 8vw, 96px);
-
-      /* secções */
-      --section-pad: clamp(28px, 5.4vw, 56px);
     }
 
     *{ box-sizing:border-box; }
@@ -175,64 +163,16 @@
       100%{ transform: translateY(-120%); opacity:0; }
     }
 
-    /* ================= CONTEÚDO ================= */
+    /* ================= CONTEÚDO (PAPEL) ================= */
     .hidden{ opacity:0; pointer-events:none; }
 
-    .paper-wrap{
-      width: var(--sheet-w);
-      margin: clamp(18px, 4vw, 44px) auto clamp(40px, 7vw, 80px) auto;
-      position: relative;
-      overflow: visible;
-    }
-
-    /* ===== Grinalda (topo e fundo) ===== */
-    .paper-deco{
-      position:absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      pointer-events:none;
-      z-index: 999;
-      width: calc(100% + var(--deco-overhang)); /* ✅ sai dos cantos da moldura interna */
-    }
-
-    .paper-deco.top{
-      top: calc(var(--deco-bleed) * -1);
-    }
-    .paper-deco.bottom{
-      bottom: calc(var(--deco-bleed) * -1);
-      transform: translateX(-50%) rotate(180deg);
-      transform-origin: center;
-    }
-
-    .paper-deco img{
-      width: 100%;
-      height: auto;
-      display:block;
-
-      /* já está “boa cor” e impresso */
-      opacity: 0.52;
-      filter: contrast(130%) brightness(92%);
-      mix-blend-mode: multiply;
-      transform: translateZ(0);
-    }
-
-    .paper-deco::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
-      opacity: 0.18;
-      mix-blend-mode: multiply;
-      pointer-events:none;
-    }
-
     .paper-sheet{
-      width: 100%;
+      width: var(--sheet-w);
+      margin: clamp(18px, 4vw, 44px) auto clamp(40px, 7vw, 80px) auto; /* menos “branco” em cima */
       position:relative;
-      z-index: 1;
       border-radius: var(--sheet-radius);
       overflow:hidden;
+
       box-shadow:
         0 18px 50px rgba(15,15,15,0.10),
         0 2px 0 rgba(255,255,255,0.35) inset;
@@ -244,7 +184,6 @@
         var(--bg);
     }
 
-    /* moldura/rebordo interno */
     .paper-sheet::before{
       content:"";
       position:absolute;
@@ -267,11 +206,9 @@
       z-index: 2;
     }
 
-    /* ✅ aqui é onde garantimos o MESMO espaço topo/fundo */
     .paper-inner{
       position:relative;
-      padding-top: calc(var(--paper-pad-y) + var(--deco-safe));
-      padding-bottom: calc(var(--paper-pad-y) + var(--deco-safe));
+      padding: var(--paper-pad-y) var(--paper-pad-x);
       z-index: 3;
     }
 
@@ -280,8 +217,9 @@
       margin: 0 auto;
     }
 
+    /* Secções */
     .section{
-      padding: var(--section-pad) 0;
+      padding: clamp(28px, 5.4vw, 56px) 0;
       opacity:0;
       transform:translateY(22px);
       transition: opacity .9s ease, transform .9s ease;
@@ -292,16 +230,16 @@
       transform:translateY(0);
     }
 
-    /* ✅ para o topo e fundo ficarem realmente simétricos:
-       a primeira secção não adiciona “extra” em cima
-       e a última não adiciona “extra” em baixo */
-    .section:first-of-type{ padding-top: 0; }
-    .section:last-of-type{ padding-bottom: 0; }
+    /* ✅ Reduz “branco” só na PRIMEIRA secção (cabeçalho) */
+    .section:first-of-type{
+      padding-top: clamp(14px, 3vw, 24px);
+      padding-bottom: clamp(22px, 4vw, 36px);
+    }
 
     /* Separador */
     .section + .section{
       position:relative;
-      padding-top: calc(var(--section-pad) + 48px);
+      padding-top: calc(clamp(28px, 5.4vw, 56px) + 48px);
     }
     .section + .section::before{
       content:"";
@@ -318,6 +256,7 @@
       pointer-events:none;
     }
 
+    /* Tipos */
     h1{
       font-family:'Playfair Display', serif;
       font-size: var(--h1);
@@ -349,7 +288,24 @@
       color: rgba(47,47,47,.75);
       font-variant-caps: all-small-caps;
       margin-top: 6px;
-      margin-bottom: 18px;
+      margin-bottom: 18px; /* ✅ espaço entre data e countdown */
+    }
+
+    /* ✅ Top leaves (agora vai ter largura definida via JS + limites) */
+    .top-leaves{
+      margin: 0 auto 14px auto;
+      display: flex;
+      justify-content: center;
+      width: auto; /* JS vai definir */
+    }
+
+    .top-leaves img{
+      display:block;
+      width: 100%;
+      max-width: 260px; /* ✅ evita ficar gigante mesmo em títulos largos */
+      opacity: 0.55;
+      filter: contrast(110%) brightness(96%);
+      mix-blend-mode: multiply;
     }
 
     /* Countdown */
@@ -547,12 +503,17 @@
         transform: translate(-96px, -10px) rotate(-90deg);
       }
       .seal-olive.right{
+        top:56%;
         transform: translate(40px, -10px) rotate(90deg) scaleX(-1);
       }
 
       :root{
-        --deco-bleed: 26px;
-        --deco-overhang: clamp(190px, 52vw, 310px);
+        --content-col: min(520px, 100%);
+      }
+
+      /* no mobile, top-leaves ainda mais contido */
+      .top-leaves img{
+        max-width: 210px;
       }
     }
 
@@ -577,136 +538,132 @@
 
   <!-- CONTEÚDO -->
   <div id="mainContent" class="hidden" aria-hidden="true">
-    <div class="paper-wrap">
-      <div class="paper-deco top" aria-hidden="true">
-        <img src="top-leaves.png" alt="">
-      </div>
+    <div class="paper-sheet" role="main">
+      <div class="paper-inner">
 
-      <div class="paper-deco bottom" aria-hidden="true">
-        <img src="top-leaves.png" alt="">
-      </div>
+        <!-- CABEÇALHO -->
+        <section class="section" aria-label="Cabeçalho">
+          <div class="content-col">
 
-      <div class="paper-sheet" role="main">
-        <div class="paper-inner">
-
-          <!-- CABEÇALHO -->
-          <section class="section" aria-label="Cabeçalho">
-            <div class="content-col">
-              <h1 id="mainTitle">Bruna &amp; Rafael</h1>
-              <p class="date">19 de Setembro de 2026</p>
+            <div class="top-leaves" id="topLeaves">
+              <img src="top-leaves.png" alt="" aria-hidden="true">
             </div>
 
-            <div class="countdown" aria-label="Contagem decrescente">
-              <div class="count-box">
-                <span id="days">—</span>
-                <small>Dias</small>
-              </div>
-              <div class="count-box">
-                <span id="hours">—</span>
-                <small>Horas</small>
-              </div>
-              <div class="count-box">
-                <span id="minutes">—</span>
-                <small>Min</small>
-              </div>
+            <h1 id="mainTitle">Bruna &amp; Rafael</h1>
+            <p class="date">19 de Setembro de 2026</p>
+          </div>
+
+          <div class="countdown" aria-label="Contagem decrescente">
+            <div class="count-box">
+              <span id="days">—</span>
+              <small>Dias</small>
             </div>
-          </section>
-
-          <!-- CERIMÓNIA -->
-          <section class="section" aria-label="Cerimónia">
-            <div class="content-col">
-              <h2>Cerimónia</h2>
-              <div class="location">Igreja Paroquial de Casais da Igreja</div>
-              <div class="time">14h30</div>
-
-              <div class="location-illustration">
-                <img src="vector igreja.png" alt="Ilustração da Igreja">
-              </div>
-
-              <a target="_blank" rel="noopener" href="https://maps.app.goo.gl/NNXk6Tdb4irwJZ41A" aria-label="Ver mapa da Cerimónia">
-                Ver no mapa
-              </a>
-
-              <div class="map-embed">
-                <iframe
-                  title="Mapa da Igreja"
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                  src="https://maps.google.com/maps?q=39.586546,-8.523528&z=17&output=embed">
-                </iframe>
-              </div>
+            <div class="count-box">
+              <span id="hours">—</span>
+              <small>Horas</small>
             </div>
-          </section>
+            <div class="count-box">
+              <span id="minutes">—</span>
+              <small>Min</small>
+            </div>
+          </div>
+        </section>
 
-          <!-- COPO DE ÁGUA -->
-          <section class="section" aria-label="Copo de Água">
-            <div class="content-col">
-              <h2>Copo de Água</h2>
-              <div class="location">Quinta das Carrascosas</div>
-              <div class="time">17h00</div>
+        <!-- CERIMÓNIA -->
+        <section class="section" aria-label="Cerimónia">
+          <div class="content-col">
+            <h2>Cerimónia</h2>
+            <div class="location">Igreja Paroquial de Casais da Igreja</div>
+            <div class="time">14h30</div>
 
-              <div class="location-illustration">
-                <img src="vector quinta.png" alt="Ilustração da Quinta">
+            <div class="location-illustration">
+              <img src="vector igreja.png" alt="Ilustração da Igreja">
+            </div>
+
+            <a target="_blank" rel="noopener" href="https://maps.app.goo.gl/NNXk6Tdb4irwJZ41A" aria-label="Ver mapa da Cerimónia">
+              Ver no mapa
+            </a>
+
+            <div class="map-embed">
+              <iframe
+                title="Mapa da Igreja"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://maps.google.com/maps?q=39.586546,-8.523528&z=17&output=embed">
+              </iframe>
+            </div>
+          </div>
+        </section>
+
+        <!-- COPO DE ÁGUA -->
+        <section class="section" aria-label="Copo de Água">
+          <div class="content-col">
+            <h2>Copo de Água</h2>
+            <div class="location">Quinta das Carrascosas</div>
+            <div class="time">17h00</div>
+
+            <div class="location-illustration">
+              <img src="vector quinta.png" alt="Ilustração da Quinta">
+            </div>
+
+            <a target="_blank" rel="noopener" href="https://maps.app.goo.gl/CoPeXxQ7RcsmeTpz6" aria-label="Ver mapa do Copo de Água">
+              Ver no mapa
+            </a>
+
+            <div class="map-embed">
+              <iframe
+                title="Mapa da Quinta"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://maps.google.com/maps?q=Quinta%20das%20Carrascosas&t=&z=15&ie=UTF8&iwloc=&output=embed">
+              </iframe>
+            </div>
+          </div>
+        </section>
+
+        <!-- RSVP -->
+        <section class="section" aria-label="RSVP">
+          <div class="content-col">
+            <h2>Podemos contar convosco?</h2>
+
+            <form id="rsvpForm">
+              <div class="form-col">
+                <label>
+                  Nome completo
+                  <input name="nome" type="text" placeholder="Nome completo" required>
+                </label>
+
+                <label>
+                  Número de pessoas
+                  <input name="pessoas" type="number" placeholder="Número de pessoas" min="1">
+                </label>
+
+                <label>
+                  Nome das pessoas que acompanham
+                  <textarea name="acompanhantes" placeholder="Nome das pessoas que acompanham"></textarea>
+                </label>
+
+                <label>
+                  Resposta de presença
+                  <select name="resposta">
+                    <option value="confirmo">Confirmo presença</option>
+                    <option value="nao">Não poderei estar presente</option>
+                  </select>
+                </label>
               </div>
 
-              <a target="_blank" rel="noopener" href="https://maps.app.goo.gl/CoPeXxQ7RcsmeTpz6" aria-label="Ver mapa do Copo de Água">
-                Ver no mapa
-              </a>
+              <button class="send-btn" type="submit" id="sendBtn">Enviar Resposta</button>
+              <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </section>
 
-              <div class="map-embed">
-                <iframe
-                  title="Mapa da Quinta"
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                  src="https://maps.google.com/maps?q=Quinta%20das%20Carrascosas&t=&z=15&ie=UTF8&iwloc=&output=embed">
-                </iframe>
-              </div>
-            </div>
-          </section>
-
-          <!-- RSVP -->
-          <section class="section" aria-label="RSVP">
-            <div class="content-col">
-              <h2>Podemos contar convosco?</h2>
-
-              <form id="rsvpForm">
-                <div class="form-col">
-                  <label>
-                    Nome completo
-                    <input name="nome" type="text" placeholder="Nome completo" required>
-                  </label>
-
-                  <label>
-                    Número de pessoas
-                    <input name="pessoas" type="number" placeholder="Número de pessoas" min="1">
-                  </label>
-
-                  <label>
-                    Nome das pessoas que acompanham
-                    <textarea name="acompanhantes" placeholder="Nome das pessoas que acompanham"></textarea>
-                  </label>
-
-                  <label>
-                    Resposta de presença
-                    <select name="resposta">
-                      <option value="confirmo">Confirmo presença</option>
-                      <option value="nao">Não poderei estar presente</option>
-                    </select>
-                  </label>
-                </div>
-
-                <button class="send-btn" type="submit" id="sendBtn">Enviar Resposta</button>
-                <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
-              </form>
-            </div>
-          </section>
-
-        </div>
       </div>
     </div>
   </div>
 
   <script>
+    // ========= Intro / Abertura =========
     const intro = document.getElementById("intro");
     const envelope = document.getElementById("envelope");
     const main = document.getElementById("mainContent");
@@ -718,6 +675,19 @@
         sec.style.transitionDelay = `${i * 90}ms`;
         sec.classList.add("visible");
       });
+    }
+
+    // ✅ FUNÇÃO QUE FALTAVA (se não existir, o JS dá erro e o countdown “morre”)
+    function alignLeavesToTitle(){
+      const title = document.getElementById("mainTitle");
+      const leaves = document.getElementById("topLeaves");
+      if(!title || !leaves) return;
+
+      const w = title.getBoundingClientRect().width;
+
+      // “editorial”: ligeiramente mais estreito que o título (92%)
+      const target = Math.max(160, Math.min(w * 0.92, 320)); // min 160px, max 320px
+      leaves.style.width = `${target}px`;
     }
 
     function openInvite(){
@@ -732,11 +702,17 @@
 
         revealSectionsWithStagger();
 
+        // foco (acessibilidade)
         const title = document.getElementById("mainTitle");
         title.setAttribute("tabindex", "-1");
         title.focus({ preventScroll: true });
         title.removeAttribute("tabindex");
 
+        // ✅ alinhamento das leaves (e atualiza ao redimensionar)
+        alignLeavesToTitle();
+        window.addEventListener("resize", alignLeavesToTitle);
+
+        // ✅ countdown inicia aqui
         updateCountdown();
         setInterval(updateCountdown, 60_000);
       }, 1050);
@@ -744,6 +720,8 @@
 
     openBtn.addEventListener("click", openInvite);
 
+    // ========= Countdown =========
+    // NOTA: manter o offset +01:00 (horário de verão em setembro) é ok para Portugal.
     const weddingDate = new Date("2026-09-19T14:30:00+01:00").getTime();
 
     function pad2(n){ return String(n).padStart(2, "0"); }
@@ -755,6 +733,7 @@
       const daysEl = document.getElementById("days");
       const hoursEl = document.getElementById("hours");
       const minutesEl = document.getElementById("minutes");
+
       if(!daysEl || !hoursEl || !minutesEl) return;
 
       if(distance <= 0){
@@ -777,7 +756,7 @@
       minutesEl.textContent = pad2(minutes);
     }
 
-    // RSVP (simulado)
+    // ========= RSVP (simulado por agora) =========
     const form = document.getElementById("rsvpForm");
     const btn  = document.getElementById("sendBtn");
     const msg  = document.getElementById("formMsg");
