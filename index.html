@@ -229,31 +229,30 @@
        ✅ parecem "nascer" a partir dos cantos do rebordo interno
        ✅ responsivo (clamp + object-fit)
     */
+    
     .wreath-edge{
       /* ocupa a largura do rebordo interno: mesma medida do ::before (inset 10px) */
       width: calc(100% - 20px);
       margin-left: auto;
       margin-right: auto;
-
+    
       display:block;
       pointer-events:none;
-
-      /* altura controlada e responsiva */
+    
       height: clamp(64px, 10vw, 96px);
-
-      opacity: 0.62;
-      filter: contrast(112%) brightness(96%);
+    
+      /* manter look/cores como antes */
+      opacity: 0.55;
+      filter: contrast(110%) brightness(96%);
       mix-blend-mode: multiply;
-
-      /* “nasce” dos cantos e preenche o topo */
+    
       object-fit: cover;
-      object-position: center;
-
-      /* ligeiro “respirar” para dentro */
-      transform: translateY(0);
+    
+      /* ✅ AQUI está o fix: a imagem “corta” a partir de cima */
+      object-position: top center;
     }
 
-    /* para a grinalda do fundo ficar “a nascer para dentro” também */
+    /* fundo invertido continua ok */
     .wreath-edge.bottom{
       transform: scaleY(-1);
     }
