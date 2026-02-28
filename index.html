@@ -49,9 +49,7 @@
       --space-6: 44px;
 
       /* ✅ espaço igual: top wreath ↔ título  e  botão ↔ bottom wreath */
-      --wreath-h: clamp(64px, 10vw, 96px);
       --wreath-gap: clamp(16px, 2.6vw, 22px);
-    }
 
       --lh-body: 1.55;
       --lh-title: 1.08;
@@ -232,42 +230,36 @@
        ✅ responsivo (clamp + object-fit)
     */
     
-    /* grinalda a alinhar com o rebordo interno (inset 10px) */
     .wreath-edge{
-    display:block;
-    pointer-events:none;
+      /* ocupa a largura do rebordo interno: mesma medida do ::before (inset 10px) */
+      width: calc(100% - 20px);
+      margin-left: auto;
+      margin-right: auto;
     
-    /* ✅ estica até aos cantos do rebordo interno:
-        - "100%" aqui é a largura ÚTIL dentro do padding
-        - acrescentamos (2*paddingX - 20px) para chegar ao inset 10px de cada lado
-    */
-    width: calc(100% + (2 * var(--paper-pad-x) - 20px));
-    margin-left: calc(-1 * (var(--paper-pad-x) - 10px));
-    margin-right: calc(-1 * (var(--paper-pad-x) - 10px));
+      display:block;
+      pointer-events:none;
     
-    height: var(--wreath-h);
+      height: clamp(64px, 10vw, 96px);
     
-    /* ✅ mantém o look/cores como tinhas antes */
-    opacity: 0.55;
-    filter: contrast(110%) brightness(96%);
-    mix-blend-mode: multiply;
+      /* manter look/cores como antes */
+      opacity: 0.55;
+      filter: contrast(110%) brightness(96%);
+      mix-blend-mode: multiply;
     
-    object-fit: cover;
-    object-position: top center;
+      object-fit: cover;
+    
+      /* ✅ AQUI está o fix: a imagem “corta” a partir de cima */
+      object-position: top center;
     }
-      
-    /* ✅ TOPO: puxa a grinalda para cima até encostar ao rebordo interno (10px) */
-    .wreath-top{
-      margin-top: calc(-1 * (var(--paper-pad-y) - 10px));
-      margin-bottom: var(--wreath-gap);
-    }
-      
-    /* ✅ FUNDO: espelha e puxa para baixo até encostar ao rebordo interno (10px) */
-    .wreath-bottom{
-      margin-top: var(--wreath-gap);
-      margin-bottom: calc(-1 * (var(--paper-pad-y) - 10px));
+
+    /* fundo invertido continua ok */
+    .wreath-edge.bottom{
       transform: scaleY(-1);
     }
+
+    /* espaçamento igual em cima e em baixo */
+    .wreath-top{ margin-bottom: var(--wreath-gap); }
+    .wreath-bottom{ margin-top: var(--wreath-gap); }
 
     /* Secções */
     .section{
@@ -690,13 +682,13 @@
               </div>
 
               <button class="send-btn" type="submit" id="sendBtn">Enviar Resposta</button>
-              <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
-            </form>
-          </div>
 
               <!-- ✅ GRINALDA FUNDO (mesmo gap do topo) -->
               <img class="wreath-edge wreath-bottom bottom" src="top-leaves.png" alt="" aria-hidden="true">
 
+              <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
+            </form>
+          </div>
         </section>
 
       </div>
