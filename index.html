@@ -26,11 +26,14 @@
       --muted: rgba(47,47,47,.68);
       --accent:#6B7D5C;
 
+      /* linha do rebordo interno (a que referiste como #5E7050) */
+      --inner-border:#5E7050;
+
       --sheet-radius: 14px;
       --sheet-w: min(760px, 94vw);
 
       --paper-pad-x: clamp(18px, 4vw, 34px);
-      --paper-pad-y: clamp(26px, 5.2vw, 44px); /* um pouco menos para reduzir “branco” */
+      --paper-pad-y: clamp(26px, 5.2vw, 44px);
 
       --content-col: min(560px, 100%);
 
@@ -44,6 +47,9 @@
       --space-4: 24px;
       --space-5: 32px;
       --space-6: 44px;
+
+      /* ✅ espaço igual: top wreath ↔ título  e  botão ↔ bottom wreath */
+      --wreath-gap: clamp(16px, 2.6vw, 22px);
 
       --lh-body: 1.55;
       --lh-title: 1.08;
@@ -168,7 +174,7 @@
 
     .paper-sheet{
       width: var(--sheet-w);
-      margin: clamp(18px, 4vw, 44px) auto clamp(40px, 7vw, 80px) auto; /* menos “branco” em cima */
+      margin: clamp(18px, 4vw, 44px) auto clamp(40px, 7vw, 80px) auto;
       position:relative;
       border-radius: var(--sheet-radius);
       overflow:hidden;
@@ -184,12 +190,13 @@
         var(--bg);
     }
 
+    /* rebordo interno */
     .paper-sheet::before{
       content:"";
       position:absolute;
       inset: 10px;
       border-radius: calc(var(--sheet-radius) - 6px);
-      border: 1px solid rgba(0,0,0,0.05);
+      border: 1px solid color-mix(in srgb, var(--inner-border) 55%, transparent);
       pointer-events:none;
       z-index: 1;
     }
@@ -216,6 +223,44 @@
       width: var(--content-col);
       margin: 0 auto;
     }
+
+    /* ================= GRINALDAS (TOPO + FUNDO) =================
+       ✅ esticam ao longo de TODO o topo/fundo do "rebordo interno" (inset 10px)
+       ✅ parecem "nascer" a partir dos cantos do rebordo interno
+       ✅ responsivo (clamp + object-fit)
+    */
+    .wreath-edge{
+      /* ocupa a largura do rebordo interno: mesma medida do ::before (inset 10px) */
+      width: calc(100% - 20px);
+      margin-left: auto;
+      margin-right: auto;
+
+      display:block;
+      pointer-events:none;
+
+      /* altura controlada e responsiva */
+      height: clamp(64px, 10vw, 96px);
+
+      opacity: 0.62;
+      filter: contrast(112%) brightness(96%);
+      mix-blend-mode: multiply;
+
+      /* “nasce” dos cantos e preenche o topo */
+      object-fit: cover;
+      object-position: center;
+
+      /* ligeiro “respirar” para dentro */
+      transform: translateY(0);
+    }
+
+    /* para a grinalda do fundo ficar “a nascer para dentro” também */
+    .wreath-edge.bottom{
+      transform: scaleY(-1);
+    }
+
+    /* espaçamento igual em cima e em baixo */
+    .wreath-top{ margin-bottom: var(--wreath-gap); }
+    .wreath-bottom{ margin-top: var(--wreath-gap); }
 
     /* Secções */
     .section{
@@ -288,25 +333,11 @@
       color: rgba(47,47,47,.75);
       font-variant-caps: all-small-caps;
       margin-top: 6px;
-      margin-bottom: 18px; /* ✅ espaço entre data e countdown */
+      margin-bottom: 18px;
     }
 
-    /* ✅ Top leaves (agora vai ter largura definida via JS + limites) */
-    .top-leaves{
-      margin: 0 auto 14px auto;
-      display: flex;
-      justify-content: center;
-      width: auto; /* JS vai definir */
-    }
-
-    .top-leaves img{
-      display:block;
-      width: 100%;
-      max-width: 260px; /* ✅ evita ficar gigante mesmo em títulos largos */
-      opacity: 0.55;
-      filter: contrast(110%) brightness(96%);
-      mix-blend-mode: multiply;
-    }
+    /* (mantido, mas já não é usado no layout final) */
+    .top-leaves{ display:none; }
 
     /* Countdown */
     .countdown{
@@ -511,9 +542,10 @@
         --content-col: min(520px, 100%);
       }
 
-      /* no mobile, top-leaves ainda mais contido */
-      .top-leaves img{
-        max-width: 210px;
+      /* em mobile, uma grinalda um pouco mais baixa para não “pesar” */
+      .wreath-edge{
+        height: clamp(56px, 14vw, 84px);
+        opacity: 0.60;
       }
     }
 
@@ -541,14 +573,12 @@
     <div class="paper-sheet" role="main">
       <div class="paper-inner">
 
+        <!-- ✅ GRINALDA TOPO (a nascer do rebordo interno) -->
+        <img class="wreath-edge wreath-top" src="top-leaves.png" alt="" aria-hidden="true">
+
         <!-- CABEÇALHO -->
         <section class="section" aria-label="Cabeçalho">
           <div class="content-col">
-
-            <div class="top-leaves" id="topLeaves">
-              <img src="top-leaves.png" alt="" aria-hidden="true">
-            </div>
-
             <h1 id="mainTitle">Bruna &amp; Rafael</h1>
             <p class="date">19 de Setembro de 2026</p>
           </div>
@@ -653,6 +683,10 @@
               </div>
 
               <button class="send-btn" type="submit" id="sendBtn">Enviar Resposta</button>
+
+              <!-- ✅ GRINALDA FUNDO (mesmo gap do topo) -->
+              <img class="wreath-edge wreath-bottom bottom" src="top-leaves.png" alt="" aria-hidden="true">
+
               <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
             </form>
           </div>
@@ -677,19 +711,6 @@
       });
     }
 
-    // ✅ FUNÇÃO QUE FALTAVA (se não existir, o JS dá erro e o countdown “morre”)
-    function alignLeavesToTitle(){
-      const title = document.getElementById("mainTitle");
-      const leaves = document.getElementById("topLeaves");
-      if(!title || !leaves) return;
-
-      const w = title.getBoundingClientRect().width;
-
-      // “editorial”: ligeiramente mais estreito que o título (92%)
-      const target = Math.max(160, Math.min(w * 0.92, 320)); // min 160px, max 320px
-      leaves.style.width = `${target}px`;
-    }
-
     function openInvite(){
       setTimeout(()=> envelope.classList.add("exit"), 80);
 
@@ -707,10 +728,6 @@
         title.setAttribute("tabindex", "-1");
         title.focus({ preventScroll: true });
         title.removeAttribute("tabindex");
-
-        // ✅ alinhamento das leaves (e atualiza ao redimensionar)
-        alignLeavesToTitle();
-        window.addEventListener("resize", alignLeavesToTitle);
 
         // ✅ countdown inicia aqui
         updateCountdown();
