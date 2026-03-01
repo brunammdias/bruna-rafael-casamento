@@ -48,8 +48,8 @@
       --space-5: 32px;
       --space-6: 44px;
 
-      /* ✅ grinalda + gaps (iguais no topo e no fundo) */
-      --wreath-h: clamp(66px, 9.5vw, 96px);
+      /* ✅ grinalda + gap igual (topo e fundo) */
+      --wreath-h: clamp(64px, 9.5vw, 92px);
       --wreath-gap: clamp(16px, 2.6vw, 22px);
 
       --lh-body: 1.55;
@@ -214,35 +214,38 @@
       z-index: 2;
     }
 
-    /* ✅ grinaldas alinhadas ao rebordo interno (10px) */
-    .wreath-edge{
+    /* ✅ BARRA DA GRINALDA (topo e fundo), alinhada à linha do rebordo interno */
+    .wreath-bar{
       position:absolute;
       left: 10px;
       right: 10px;
       height: var(--wreath-h);
-      width: calc(100% - 20px);
-
-      pointer-events:none;
       z-index: 3;
+      pointer-events:none;
 
-      /* manter look/cores */
+      display:flex;
+      overflow:hidden; /* importante para “cortar” o centro sem esticar */
+    }
+    .wreath-bar.top{ top: 10px; }
+    .wreath-bar.bottom{ bottom: 10px; transform: scaleY(-1); }
+
+    .wreath-half{
+      width: 50%;
+      height: 100%;
+
+      /* mantém look/cores como tinhas */
       opacity: 0.55;
       filter: contrast(110%) brightness(96%);
       mix-blend-mode: multiply;
 
-      /* ✅ estica se for preciso para chegar aos cantos */
-      object-fit: fill;
-      object-position: top center;
+      object-fit: cover;          /* ✅ corta em vez de esticar */
+      object-position: top left;  /* default (vai ser override no right) */
     }
-    .wreath-edge.top{
-      top: 10px; /* coincide com o rebordo interno */
-    }
-    .wreath-edge.bottom{
-      bottom: 10px; /* coincide com o rebordo interno */
-      transform: scaleY(-1);
+    .wreath-half.right{
+      object-position: top right; /* mostra o lado direito do PNG */
     }
 
-    /* ✅ miolo: reservamos espaço para a grinalda + gap (topo e fundo iguais) */
+    /* ✅ reservamos espaço no miolo para não sobrepor com o conteúdo */
     .paper-inner{
       position:relative;
       z-index: 4;
@@ -272,13 +275,11 @@
       transform:translateY(0);
     }
 
-    /* ✅ Reduz “branco” só na PRIMEIRA secção (cabeçalho) */
     .section:first-of-type{
       padding-top: clamp(14px, 3vw, 24px);
       padding-bottom: clamp(22px, 4vw, 36px);
     }
 
-    /* Separador */
     .section + .section{
       position:relative;
       padding-top: calc(clamp(28px, 5.4vw, 56px) + 48px);
@@ -298,7 +299,6 @@
       pointer-events:none;
     }
 
-    /* Tipos */
     h1{
       font-family:'Playfair Display', serif;
       font-size: var(--h1);
@@ -534,8 +534,7 @@
 
       :root{
         --content-col: min(520px, 100%);
-        /* um pouco mais “compacto” em mobile */
-        --wreath-h: clamp(56px, 13vw, 84px);
+        --wreath-h: clamp(56px, 13vw, 82px);
         --wreath-gap: clamp(14px, 3vw, 18px);
       }
     }
@@ -563,8 +562,11 @@
   <div id="mainContent" class="hidden" aria-hidden="true">
     <div class="paper-sheet" role="main">
 
-      <!-- ✅ GRINALDA TOPO (alinhada aos cantos do rebordo interno) -->
-      <img class="wreath-edge top" src="top-leaves.png" alt="" aria-hidden="true">
+      <!-- ✅ GRINALDA TOPO (2 metades, sem esticar) -->
+      <div class="wreath-bar top" aria-hidden="true">
+        <img class="wreath-half left"  src="top-leaves.png" alt="">
+        <img class="wreath-half right" src="top-leaves.png" alt="">
+      </div>
 
       <div class="paper-inner">
 
@@ -682,8 +684,11 @@
 
       </div>
 
-      <!-- ✅ GRINALDA FUNDO (alinhada aos cantos do rebordo interno) -->
-      <img class="wreath-edge bottom" src="top-leaves.png" alt="" aria-hidden="true">
+      <!-- ✅ GRINALDA FUNDO (2 metades, sem esticar) -->
+      <div class="wreath-bar bottom" aria-hidden="true">
+        <img class="wreath-half left"  src="top-leaves.png" alt="">
+        <img class="wreath-half right" src="top-leaves.png" alt="">
+      </div>
 
     </div>
   </div>
@@ -715,13 +720,11 @@
 
         revealSectionsWithStagger();
 
-        // foco (acessibilidade)
         const title = document.getElementById("mainTitle");
         title.setAttribute("tabindex", "-1");
         title.focus({ preventScroll: true });
         title.removeAttribute("tabindex");
 
-        // ✅ countdown inicia aqui
         updateCountdown();
         setInterval(updateCountdown, 60_000);
       }, 1050);
@@ -730,9 +733,7 @@
     openBtn.addEventListener("click", openInvite);
 
     // ========= Countdown =========
-    // NOTA: manter o offset +01:00 (horário de verão em setembro) é ok para Portugal.
     const weddingDate = new Date("2026-09-19T14:30:00+01:00").getTime();
-
     function pad2(n){ return String(n).padStart(2, "0"); }
 
     function updateCountdown(){
