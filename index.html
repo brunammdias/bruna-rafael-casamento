@@ -26,16 +26,16 @@
       --paper: rgba(255,255,255,0.72);
       --ink:#2F2F2F;
 
-      /* Texto */
+      /* Texto (mais “chic”: menos opacidade extrema, melhor leitura) */
       --muted: rgba(47,47,47,.74);
       --muted-2: rgba(47,47,47,.62);
 
-      /* Accent (olive) */
+      /* Accent (olive) + variações para sombras/hover */
       --accent:#6B7D5C;
       --accent-dark:#556647;
       --accent-soft: rgba(107,125,92,0.18);
 
-      /* Rebordo */
+      /* linha do rebordo interno */
       --inner-border:#5E7050;
 
       /* Layout */
@@ -52,7 +52,7 @@
       --h2: clamp(28px, 5.6vw, 44px);
       --p:  clamp(18px, 2.6vw, 21px);
 
-      /* Espaços */
+      /* Espaços: mais consistentes */
       --space-1: 8px;
       --space-2: 12px;
       --space-3: 16px;
@@ -60,17 +60,19 @@
       --space-5: 32px;
       --space-6: 44px;
 
-      /* Wreath gap */
+      /* espaço igual: top wreath ↔ título  e  botão ↔ bottom wreath */
       --wreath-gap: clamp(16px, 2.6vw, 22px);
 
       /* Linha/altura */
       --lh-body: 1.6;
       --lh-title: 1.06;
 
-      /* Tokens */
+      /* “Design tokens” para sombras/bordas */
       --ring: 0 0 0 4px rgba(107,125,92,0.18);
       --shadow-1: 0 10px 26px rgba(15,15,15,0.06);
       --shadow-2: 0 18px 50px rgba(15,15,15,0.10);
+      --border-soft: rgba(0,0,0,0.10);
+      --border-olive: rgba(107,125,92,0.22);
     }
 
     *{ box-sizing:border-box; }
@@ -228,7 +230,7 @@
       inset:0;
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
-      opacity: 0.17;
+      opacity: 0.18;
       mix-blend-mode: multiply;
       pointer-events:none;
       z-index: 2;
@@ -278,9 +280,9 @@
       margin-top: calc(var(--wreath-gap) - 12px);
     }
 
-    /* ================= SEÇÕES + SEPARADOR (mais minimal/romântico) ================= */
+    /* Secções */
     .section{
-      padding: clamp(28px, 5.1vw, 52px) 0;
+      padding: clamp(28px, 5.2vw, 54px) 0;
       opacity:0;
       transform:translateY(22px);
       transition: opacity .9s ease, transform .9s ease;
@@ -291,44 +293,33 @@
       transform:translateY(0);
     }
 
+    /* cabeçalho: um bocadinho mais “editorial” */
     .section:first-of-type{
       padding-top: clamp(14px, 3vw, 24px);
       padding-bottom: clamp(22px, 4vw, 36px);
     }
 
-    /* Base do separador (mais pequeno e subtil) */
+    /* Separador */
     .section + .section{
       position:relative;
-      padding-top: calc(clamp(28px, 5.1vw, 52px) + 46px);
+      padding-top: calc(clamp(28px, 5.2vw, 54px) + 52px);
     }
     .section + .section::before{
       content:"";
       position:absolute;
-      top: 10px;
+      top: 12px;
       left: 50%;
-      width: clamp(62px, 9.4vw, 84px);
-      height: clamp(62px, 9.4vw, 84px);
+      width: clamp(70px, 11vw, 98px);
+      height: clamp(70px, 11vw, 98px);
       transform: translateX(-50%) rotate(90deg);
       background: url("separador leaves.png") center/contain no-repeat;
-      opacity: 0.46;
-      filter: contrast(128%) brightness(96%);
+      opacity: 0.58;
+      filter: contrast(132%) brightness(92%);
       mix-blend-mode: multiply;
       pointer-events:none;
     }
 
-    /* Variação subtil (secção 2 e 3 ligeiramente diferentes para “ritmo” visual) */
-    .section:nth-of-type(2) + .section::before{
-      width: clamp(60px, 9vw, 80px);
-      height: clamp(60px, 9vw, 80px);
-      opacity: 0.42;
-    }
-    .section:nth-of-type(3) + .section::before{
-      width: clamp(64px, 9.8vw, 86px);
-      height: clamp(64px, 9.8vw, 86px);
-      opacity: 0.48;
-    }
-
-    /* ================= TIPOGRAFIA ================= */
+    /* Tipos */
     h1{
       font-family:'Playfair Display', serif;
       font-size: var(--h1);
@@ -365,7 +356,7 @@
       margin-bottom: 18px;
     }
 
-    /* ================= COUNTDOWN ================= */
+    /* Countdown */
     .countdown{
       width: var(--content-col);
       margin: 0 auto;
@@ -412,34 +403,7 @@
       color: rgba(47,47,47,.72);
     }
 
-    /* ================= ILUSTRAÇÕES (uniformizadas) =================
-       - Mesma altura visual para igreja/quinta
-       - Sem distorcer: object-fit: contain
-       - Minimal e romântico: ligeiro fade + mesma presença
-    */
-    .location-illustration{
-      width: var(--content-col);
-      margin: var(--space-5) auto var(--space-3) auto;
-
-      /* “janela” com altura fixa para uniformizar presença */
-      height: clamp(130px, 22vw, 170px);
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-
-      opacity:0.68;
-      filter: grayscale(100%) contrast(88%) brightness(104%);
-      mix-blend-mode:multiply;
-    }
-    .location-illustration img{
-      height: 100%;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-
-    /* ================= LINKS ================= */
+    /* Links / Botões secundários */
     a{
       display:inline-flex;
       align-items:center;
@@ -468,6 +432,14 @@
       box-shadow: var(--ring);
     }
 
+    .location-illustration{
+      width: var(--content-col);
+      margin: var(--space-5) auto var(--space-3) auto;
+      opacity:0.70;
+      filter: grayscale(100%) contrast(86%) brightness(104%);
+      mix-blend-mode:multiply;
+    }
+
     .map-embed{
       width: var(--content-col);
       margin: var(--space-4) auto 0 auto;
@@ -485,7 +457,7 @@
       filter: saturate(0.92) contrast(1.02);
     }
 
-    /* ================= FORM ================= */
+    /* Form */
     form{
       margin-top: var(--space-3);
       display:grid;
@@ -532,6 +504,7 @@
 
     textarea{ height: 140px; resize:none; }
 
+    /* CTA principal */
     .send-btn{
       margin-top: 8px;
       padding: 14px 34px;
@@ -550,7 +523,9 @@
       box-shadow: 0 20px 42px rgba(15,15,15,0.14);
       filter: brightness(1.02);
     }
-    .send-btn:active{ transform: translateY(-1px); }
+    .send-btn:active{
+      transform: translateY(-1px);
+    }
     .send-btn:focus-visible{
       outline: none;
       box-shadow: 0 0 0 4px rgba(255,255,255,0.7), 0 0 0 8px rgba(107,125,92,0.28);
@@ -570,7 +545,7 @@
       min-height: 22px;
     }
 
-    /* ================= MOBILE ================= */
+    /* Mobile */
     @media (max-width:520px){
       .envelope-real{ border-radius: 12px; }
 
@@ -604,28 +579,23 @@
         --content-col: min(520px, 100%);
       }
 
+      /* em mobile, uma grinalda um pouco mais baixa para não “pesar” */
       .wreath-edge{
         height: clamp(56px, 14vw, 84px);
         opacity: 0.84;
       }
 
-      /* Ilustrações: ligeiramente mais compactas em mobile */
-      .location-illustration{
-        height: clamp(120px, 34vw, 150px);
-        margin: var(--space-5) auto var(--space-3) auto;
+      .count-box{
+        border-radius: 13px;
+        padding: 11px 10px;
       }
 
-      /* Separador um pouco mais leve em mobile */
-      .section + .section{
-        padding-top: calc(clamp(28px, 5.1vw, 52px) + 42px);
+      a{
+        width: min(520px, 100%);
       }
-      .section + .section::before{
-        top: 8px;
-        opacity: 0.42;
+      .send-btn{
+        width: min(520px, 100%);
       }
-
-      a{ width: min(520px, 100%); }
-      .send-btn{ width: min(520px, 100%); }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -653,7 +623,7 @@
     <div class="paper-sheet" role="main">
       <div class="paper-inner">
 
-        <!-- GRINALDA TOPO -->
+        <!-- ✅ GRINALDA TOPO -->
         <img class="wreath-edge wreath-top" src="top-leaves.png" alt="" aria-hidden="true">
 
         <!-- CABEÇALHO -->
@@ -764,7 +734,7 @@
 
               <button class="send-btn" type="submit" id="sendBtn">Enviar Resposta</button>
 
-              <!-- GRINALDA FUNDO -->
+              <!-- ✅ GRINALDA FUNDO -->
               <img class="wreath-edge wreath-bottom bottom" src="top-leaves.png" alt="" aria-hidden="true">
 
               <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
@@ -809,7 +779,7 @@
         title.focus({ preventScroll: true });
         title.removeAttribute("tabindex");
 
-        // countdown inicia aqui
+        // ✅ countdown inicia aqui
         updateCountdown();
         setInterval(updateCountdown, 60_000);
       }, 1050);
