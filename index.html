@@ -249,16 +249,23 @@
       object-position: top center;
     }
     
-    /* fundo invertido continua ok */
-    .wreath-edge.bottom{
-      transform: scaleY(-1);
-    }
-    
     /* topo mantém exatamente o mesmo “gap” */
     .wreath-top{ margin-bottom: var(--wreath-gap); }
     
     /* ✅ compensa o gap do grid do form (12px) para ficar igual ao topo */
-    .wreath-bottom{ margin-top: calc(var(--wreath-gap) - 12px); }
+    .wreath-bottom{
+      /* sair da content-col */
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%) scaleY(-1);
+    
+      /* mesma largura do rebordo interno */
+      width: calc(100vw - (100vw - var(--sheet-w)) - 20px);
+      max-width: calc(100% - 20px);
+    
+      /* mantém o espaçamento correto */
+      margin-top: calc(var(--wreath-gap) - 12px);
+    }
 
     /* Secções */
     .section{
