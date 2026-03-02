@@ -249,24 +249,31 @@
 
     /* ================= GRINALDAS (TOPO + FUNDO) ================= */
     .wreath-edge{
-      width: calc(100% - 20px);
+      /* sempre visível e centrada */
+      display: block;
       margin-left: auto;
       margin-right: auto;
-
-      display:block;
-      pointer-events:none;
-
-      height: clamp(64px, 10vw, 96px);
-
-      opacity: 0.80;
-      filter: contrast(128%) brightness(92%);
-      mix-blend-mode: multiply;
-
-      object-fit: cover;
-      object-position: top center;
+    
+      /* largura responsiva sem cortar (mantém proporção) */
+      width: min(var(--wreath-inner-w), 100%);
+      max-width: 100%;
+      height: auto;
+    
+      /* cores originais do PNG */
+      opacity: 1;
+      filter: none;
+      mix-blend-mode: normal;
+    
+      /* garante que nada “corta” a imagem */
+      object-fit: contain;      /* não é cover, e aqui praticamente nem é usado */
+      object-position: center;
+    
+      /* à frente do rebordo/noise */
+      position: relative;
+      z-index: 5;
+    
+      pointer-events: none;
     }
-
-    .wreath-top{ margin-bottom: var(--wreath-gap); }
 
     /* fundo: mesma largura visual do topo + centrado, e com gap igual ao topo */
     .wreath-bottom{
@@ -581,8 +588,8 @@
 
       /* em mobile, uma grinalda um pouco mais baixa para não “pesar” */
       .wreath-edge{
-        height: clamp(56px, 14vw, 84px);
-        opacity: 0.84;
+        width: min(var(--wreath-inner-w), 100%);
+        height: auto;
       }
 
       .count-box{
