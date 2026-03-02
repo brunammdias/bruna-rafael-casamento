@@ -26,16 +26,16 @@
       --paper: rgba(255,255,255,0.72);
       --ink:#2F2F2F;
 
-      /* Texto */
+      /* Texto (mais “chic”: menos opacidade extrema, melhor leitura) */
       --muted: rgba(47,47,47,.74);
       --muted-2: rgba(47,47,47,.62);
 
-      /* Accent */
+      /* Accent (olive) + variações para sombras/hover */
       --accent:#6B7D5C;
       --accent-dark:#556647;
       --accent-soft: rgba(107,125,92,0.18);
 
-      /* Rebordo */
+      /* linha do rebordo interno */
       --inner-border:#5E7050;
 
       /* Layout */
@@ -47,15 +47,12 @@
 
       --content-col: min(560px, 100%);
 
-      /* Tipografia (AJUSTES pedidos) */
-      --h1: clamp(32px, 5.4vw, 50px);         /* ↓ nomes um pouco mais pequenos */
+      /* Tipografia */
+      --h1: clamp(36px, 6.2vw, 58px);
       --h2: clamp(28px, 5.6vw, 44px);
       --p:  clamp(18px, 2.6vw, 21px);
 
-      --date: clamp(20px, 3.2vw, 26px);       /* ↑ data maior */
-      --time: clamp(20px, 3.3vw, 25px);       /* ↑ horas maiores */
-
-      /* Espaços */
+      /* Espaços: mais consistentes */
       --space-1: 8px;
       --space-2: 12px;
       --space-3: 16px;
@@ -63,20 +60,19 @@
       --space-5: 32px;
       --space-6: 44px;
 
-      /* Espaço igual: top wreath ↔ título  e  botão ↔ bottom wreath */
+      /* espaço igual: top wreath ↔ título  e  botão ↔ bottom wreath */
       --wreath-gap: clamp(16px, 2.6vw, 22px);
-
-      /* largura “real” da grinalda dentro do papel (igual ao topo) */
-      --wreath-inner-w: calc(var(--sheet-w) - (2 * var(--paper-pad-x)) - 20px);
 
       /* Linha/altura */
       --lh-body: 1.6;
       --lh-title: 1.06;
 
-      /* Tokens */
+      /* “Design tokens” para sombras/bordas */
       --ring: 0 0 0 4px rgba(107,125,92,0.18);
       --shadow-1: 0 10px 26px rgba(15,15,15,0.06);
       --shadow-2: 0 18px 50px rgba(15,15,15,0.10);
+      --border-soft: rgba(0,0,0,0.10);
+      --border-olive: rgba(107,125,92,0.22);
     }
 
     *{ box-sizing:border-box; }
@@ -253,9 +249,7 @@
 
     /* ================= GRINALDAS (TOPO + FUNDO) ================= */
     .wreath-edge{
-      /* largura igual à do topo (dentro do papel) */
-      width: var(--wreath-inner-w);
-      max-width: 100%;
+      width: calc(100% - 20px);
       margin-left: auto;
       margin-right: auto;
 
@@ -268,34 +262,22 @@
       filter: contrast(128%) brightness(92%);
       mix-blend-mode: multiply;
 
-      /* ✅ evita corte da imagem */
-      object-fit: contain;
-      object-position: center;
-
-      /* ✅ “para a frente”, por cima do rebordo/noise */
-      position: relative;
-      z-index: 5;
+      object-fit: cover;
+      object-position: top center;
     }
 
-    .wreath-top{
-      margin-bottom: var(--wreath-gap);
-    }
+    .wreath-top{ margin-bottom: var(--wreath-gap); }
 
-    /* fundo: mesmo tamanho, centrado e mesmo gap do topo */
+    /* fundo: mesma largura visual do topo + centrado, e com gap igual ao topo */
     .wreath-bottom{
-      /* mantém no fluxo do form, mas “sai” da content-col */
-      justify-self: center;
       position: relative;
       left: 50%;
       transform: translateX(-50%) scaleY(-1);
 
-      width: var(--wreath-inner-w);
-      max-width: 100%;
+      width: calc(100vw - (100vw - var(--sheet-w)) - 20px);
+      max-width: calc(100% - 20px);
 
-      /* gap total entre botão e grinalda = --wreath-gap */
       margin-top: calc(var(--wreath-gap) - 12px);
-
-      z-index: 5;
     }
 
     /* Secções */
@@ -311,6 +293,7 @@
       transform:translateY(0);
     }
 
+    /* cabeçalho: um bocadinho mais “editorial” */
     .section:first-of-type{
       padding-top: clamp(14px, 3vw, 24px);
       padding-bottom: clamp(22px, 4vw, 36px);
@@ -342,7 +325,7 @@
       font-size: var(--h1);
       color: var(--accent);
       margin: 0 0 var(--space-1) 0;
-      letter-spacing: .12px;
+      letter-spacing: .15px;
       line-height: var(--lh-title);
       text-shadow: 0 1px 0 rgba(255,255,255,0.45);
     }
@@ -365,11 +348,11 @@
     }
 
     .date{
-      font-size: var(--date);
-      letter-spacing: 1.45px;
+      font-size: clamp(18px, 2.6vw, 22px);
+      letter-spacing: 1.35px;
       color: rgba(47,47,47,.72);
       font-variant-caps: all-small-caps;
-      margin-top: 10px;
+      margin-top: 8px;
       margin-bottom: 18px;
     }
 
@@ -408,20 +391,16 @@
       color: rgba(47,47,47,.70);
     }
 
-    /* Localização: micro tracking (editorial) */
     .location{
       font-size: clamp(20px, 3.5vw, 28px);
       margin: var(--space-2) 0 var(--space-1) 0;
       line-height: 1.22;
       color: rgba(47,47,47,.90);
-      letter-spacing: 0.015em; /* ✅ micro tracking */
     }
-
     .time{
-      font-size: var(--time); /* ✅ maior */
+      font-size: clamp(18px, 3vw, 22px);
       margin-bottom: var(--space-3);
       color: rgba(47,47,47,.72);
-      letter-spacing: 0.02em;
     }
 
     /* Links / Botões secundários */
@@ -461,7 +440,6 @@
       mix-blend-mode:multiply;
     }
 
-    /* Mapas (mais clean, mas legíveis) */
     .map-embed{
       width: var(--content-col);
       margin: var(--space-4) auto 0 auto;
@@ -470,23 +448,13 @@
       border: 1px solid rgba(0,0,0,0.07);
       box-shadow: 0 12px 28px rgba(15,15,15,0.05);
       background: rgba(255,255,255,0.35);
-      position: relative;
-    }
-    .map-embed::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: rgba(248,246,242,0.10); /* leve véu “papel” */
-      pointer-events:none;
     }
     .map-embed iframe{
       width:100%;
       height: clamp(230px, 44vw, 300px);
       border:0;
       display:block;
-
-      /* ✅ mais clean */
-      filter: grayscale(100%) saturate(0.65) contrast(1.06) brightness(1.05);
+      filter: saturate(0.92) contrast(1.02);
     }
 
     /* Form */
@@ -555,7 +523,9 @@
       box-shadow: 0 20px 42px rgba(15,15,15,0.14);
       filter: brightness(1.02);
     }
-    .send-btn:active{ transform: translateY(-1px); }
+    .send-btn:active{
+      transform: translateY(-1px);
+    }
     .send-btn:focus-visible{
       outline: none;
       box-shadow: 0 0 0 4px rgba(255,255,255,0.7), 0 0 0 8px rgba(107,125,92,0.28);
@@ -607,11 +577,9 @@
 
       :root{
         --content-col: min(520px, 100%);
-        --h1: clamp(30px, 9vw, 44px);
-        --date: clamp(19px, 4.6vw, 24px);
-        --time: clamp(19px, 4.8vw, 24px);
       }
 
+      /* em mobile, uma grinalda um pouco mais baixa para não “pesar” */
       .wreath-edge{
         height: clamp(56px, 14vw, 84px);
         opacity: 0.84;
@@ -622,8 +590,12 @@
         padding: 11px 10px;
       }
 
-      a{ width: min(520px, 100%); }
-      .send-btn{ width: min(520px, 100%); }
+      a{
+        width: min(520px, 100%);
+      }
+      .send-btn{
+        width: min(520px, 100%);
+      }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -651,7 +623,7 @@
     <div class="paper-sheet" role="main">
       <div class="paper-inner">
 
-        <!-- GRINALDA TOPO -->
+        <!-- ✅ GRINALDA TOPO -->
         <img class="wreath-edge wreath-top" src="top-leaves.png" alt="" aria-hidden="true">
 
         <!-- CABEÇALHO -->
@@ -762,7 +734,7 @@
 
               <button class="send-btn" type="submit" id="sendBtn">Enviar Resposta</button>
 
-              <!-- GRINALDA FUNDO -->
+              <!-- ✅ GRINALDA FUNDO -->
               <img class="wreath-edge wreath-bottom bottom" src="top-leaves.png" alt="" aria-hidden="true">
 
               <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
