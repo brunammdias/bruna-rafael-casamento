@@ -26,7 +26,7 @@
       --muted: rgba(47,47,47,.68);
       --accent:#6B7D5C;
 
-      /* linha do rebordo interno */
+      /* linha do rebordo interno (a que referiste como #5E7050) */
       --inner-border:#5E7050;
 
       --sheet-radius: 14px;
@@ -48,8 +48,7 @@
       --space-5: 32px;
       --space-6: 44px;
 
-      /* ✅ grinalda + gap igual (topo e fundo) */
-      --wreath-h: clamp(64px, 9.5vw, 92px);
+      /* ✅ espaço igual: top wreath ↔ título  e  botão ↔ bottom wreath */
       --wreath-gap: clamp(16px, 2.6vw, 22px);
 
       --lh-body: 1.55;
@@ -214,53 +213,53 @@
       z-index: 2;
     }
 
-    /* ✅ BARRA DA GRINALDA (topo e fundo), alinhada à linha do rebordo interno */
-    .wreath-bar{
-      position:absolute;
-      left: 10px;
-      right: 10px;
-      height: var(--wreath-h);
-      z-index: 3;
-      pointer-events:none;
-
-      display:flex;
-      overflow:hidden; /* importante para “cortar” o centro sem esticar */
-    }
-    .wreath-bar.top{ top: 10px; }
-    .wreath-bar.bottom{ bottom: 10px; transform: scaleY(-1); }
-
-    .wreath-half{
-      width: 50%;
-      height: 100%;
-
-      /* mantém look/cores como tinhas */
-      opacity: 0.55;
-      filter: contrast(110%) brightness(96%);
-      mix-blend-mode: multiply;
-
-      object-fit: cover;          /* ✅ corta em vez de esticar */
-      object-position: top left;  /* default (vai ser override no right) */
-    }
-    .wreath-half.right{
-      object-position: top right; /* mostra o lado direito do PNG */
-    }
-
-    /* ✅ reservamos espaço no miolo para não sobrepor com o conteúdo */
     .paper-inner{
       position:relative;
-      z-index: 4;
-
-      padding-left: var(--paper-pad-x);
-      padding-right: var(--paper-pad-x);
-
-      padding-top: calc(var(--paper-pad-y) + var(--wreath-h) + var(--wreath-gap));
-      padding-bottom: calc(var(--paper-pad-y) + var(--wreath-h) + var(--wreath-gap));
+      padding: var(--paper-pad-y) var(--paper-pad-x);
+      z-index: 3;
     }
 
     .content-col{
       width: var(--content-col);
       margin: 0 auto;
     }
+
+    /* ================= GRINALDAS (TOPO + FUNDO) =================
+       ✅ esticam ao longo de TODO o topo/fundo do "rebordo interno" (inset 10px)
+       ✅ parecem "nascer" a partir dos cantos do rebordo interno
+       ✅ responsivo (clamp + object-fit)
+    */
+    
+    .wreath-edge{
+      /* ocupa a largura do rebordo interno: mesma medida do ::before (inset 10px) */
+      width: calc(100% - 20px);
+      margin-left: auto;
+      margin-right: auto;
+    
+      display:block;
+      pointer-events:none;
+    
+      height: clamp(64px, 10vw, 96px);
+    
+      /* manter look/cores como antes */
+      opacity: 0.55;
+      filter: contrast(110%) brightness(96%);
+      mix-blend-mode: multiply;
+    
+      object-fit: cover;
+    
+      /* ✅ AQUI está o fix: a imagem “corta” a partir de cima */
+      object-position: top center;
+    }
+
+    /* fundo invertido continua ok */
+    .wreath-edge.bottom{
+      transform: scaleY(-1);
+    }
+
+    /* espaçamento igual em cima e em baixo */
+    .wreath-top{ margin-bottom: var(--wreath-gap); }
+    .wreath-bottom{ margin-top: var(--wreath-gap); }
 
     /* Secções */
     .section{
@@ -275,11 +274,13 @@
       transform:translateY(0);
     }
 
+    /* ✅ Reduz “branco” só na PRIMEIRA secção (cabeçalho) */
     .section:first-of-type{
       padding-top: clamp(14px, 3vw, 24px);
       padding-bottom: clamp(22px, 4vw, 36px);
     }
 
+    /* Separador */
     .section + .section{
       position:relative;
       padding-top: calc(clamp(28px, 5.4vw, 56px) + 48px);
@@ -299,6 +300,7 @@
       pointer-events:none;
     }
 
+    /* Tipos */
     h1{
       font-family:'Playfair Display', serif;
       font-size: var(--h1);
@@ -332,6 +334,9 @@
       margin-top: 6px;
       margin-bottom: 18px;
     }
+
+    /* (mantido, mas já não é usado no layout final) */
+    .top-leaves{ display:none; }
 
     /* Countdown */
     .countdown{
@@ -534,8 +539,12 @@
 
       :root{
         --content-col: min(520px, 100%);
-        --wreath-h: clamp(56px, 13vw, 82px);
-        --wreath-gap: clamp(14px, 3vw, 18px);
+      }
+
+      /* em mobile, uma grinalda um pouco mais baixa para não “pesar” */
+      .wreath-edge{
+        height: clamp(56px, 14vw, 84px);
+        opacity: 0.60;
       }
     }
 
@@ -561,14 +570,10 @@
   <!-- CONTEÚDO -->
   <div id="mainContent" class="hidden" aria-hidden="true">
     <div class="paper-sheet" role="main">
-
-      <!-- ✅ GRINALDA TOPO (2 metades, sem esticar) -->
-      <div class="wreath-bar top" aria-hidden="true">
-        <img class="wreath-half left"  src="top-leaves.png" alt="">
-        <img class="wreath-half right" src="top-leaves.png" alt="">
-      </div>
-
       <div class="paper-inner">
+
+        <!-- ✅ GRINALDA TOPO (a nascer do rebordo interno) -->
+        <img class="wreath-edge wreath-top" src="top-leaves.png" alt="" aria-hidden="true">
 
         <!-- CABEÇALHO -->
         <section class="section" aria-label="Cabeçalho">
@@ -677,19 +682,16 @@
               </div>
 
               <button class="send-btn" type="submit" id="sendBtn">Enviar Resposta</button>
+
+              <!-- ✅ GRINALDA FUNDO (mesmo gap do topo) -->
+              <img class="wreath-edge wreath-bottom bottom" src="top-leaves.png" alt="" aria-hidden="true">
+
               <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
             </form>
           </div>
         </section>
 
       </div>
-
-      <!-- ✅ GRINALDA FUNDO (2 metades, sem esticar) -->
-      <div class="wreath-bar bottom" aria-hidden="true">
-        <img class="wreath-half left"  src="top-leaves.png" alt="">
-        <img class="wreath-half right" src="top-leaves.png" alt="">
-      </div>
-
     </div>
   </div>
 
@@ -720,11 +722,13 @@
 
         revealSectionsWithStagger();
 
+        // foco (acessibilidade)
         const title = document.getElementById("mainTitle");
         title.setAttribute("tabindex", "-1");
         title.focus({ preventScroll: true });
         title.removeAttribute("tabindex");
 
+        // ✅ countdown inicia aqui
         updateCountdown();
         setInterval(updateCountdown, 60_000);
       }, 1050);
@@ -733,7 +737,9 @@
     openBtn.addEventListener("click", openInvite);
 
     // ========= Countdown =========
+    // NOTA: manter o offset +01:00 (horário de verão em setembro) é ok para Portugal.
     const weddingDate = new Date("2026-09-19T14:30:00+01:00").getTime();
+
     function pad2(n){ return String(n).padStart(2, "0"); }
 
     function updateCountdown(){
