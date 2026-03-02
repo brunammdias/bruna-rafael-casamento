@@ -231,7 +231,6 @@
     */
     
     .wreath-edge{
-      /* ocupa a largura do rebordo interno: mesma medida do ::before (inset 10px) */
       width: calc(100% - 20px);
       margin-left: auto;
       margin-right: auto;
@@ -241,25 +240,25 @@
     
       height: clamp(64px, 10vw, 96px);
     
-      /* manter look/cores como antes */
-      opacity: 0.55;
-      filter: contrast(110%) brightness(96%);
+      /* mais visível (menos desvanecida) */
+      opacity: 0.78;
+      filter: contrast(125%) brightness(92%);
       mix-blend-mode: multiply;
     
       object-fit: cover;
-    
-      /* ✅ AQUI está o fix: a imagem “corta” a partir de cima */
       object-position: top center;
     }
-
+    
     /* fundo invertido continua ok */
     .wreath-edge.bottom{
       transform: scaleY(-1);
     }
-
-    /* espaçamento igual em cima e em baixo */
+    
+    /* topo mantém exatamente o mesmo “gap” */
     .wreath-top{ margin-bottom: var(--wreath-gap); }
-    .wreath-bottom{ margin-top: var(--wreath-gap); }
+    
+    /* ✅ compensa o gap do grid do form (12px) para ficar igual ao topo */
+    .wreath-bottom{ margin-top: calc(var(--wreath-gap) - 12px); }
 
     /* Secções */
     .section{
@@ -544,7 +543,7 @@
       /* em mobile, uma grinalda um pouco mais baixa para não “pesar” */
       .wreath-edge{
         height: clamp(56px, 14vw, 84px);
-        opacity: 0.60;
+        opacity: 0.82; /* acompanha o aumento de visibilidade */
       }
     }
 
