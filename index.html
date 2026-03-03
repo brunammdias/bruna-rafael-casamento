@@ -61,7 +61,7 @@
       --space-6: 44px;
 
       /* espaço igual: top wreath ↔ título  e  botão ↔ bottom wreath */
-      --wreath-gap: clamp(16px, 2.6vw, 22px);
+      --wreath-gap: clamp(10px, 2vw, 16px);
 
       /* Linha/altura */
       --lh-body: 1.6;
@@ -277,14 +277,19 @@
 
     /* fundo: mesma largura visual do topo + centrado, e com gap igual ao topo */
     .wreath-bottom{
+      /* mesma largura visual do topo */
+      width: var(--wreath-inner-w);
+      max-width: none;              /* <- isto é o fix do “fica mais curto” */
+    
+      /* centragem real */
       position: relative;
       left: 50%;
       transform: translateX(-50%) scaleY(-1);
-
-      width: calc(100vw - (100vw - var(--sheet-w)) - 20px);
-      max-width: calc(100% - 20px);
-
+    
+      /* gap (igual ao topo, compensando o gap do grid do form) */
       margin-top: calc(var(--wreath-gap) - 12px);
+    
+      display: block;
     }
 
     /* Secções */
@@ -324,6 +329,10 @@
       filter: contrast(132%) brightness(92%);
       mix-blend-mode: multiply;
       pointer-events:none;
+    }
+
+    .section:last-of-type{
+      padding-bottom: clamp(16px, 3vw, 26px);
     }
 
     /* Tipos */
