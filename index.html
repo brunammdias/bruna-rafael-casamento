@@ -26,11 +26,11 @@
       --paper: rgba(255,255,255,0.72);
       --ink:#2F2F2F;
 
-      /* Texto (mais “chic”: menos opacidade extrema, melhor leitura) */
+      /* Texto */
       --muted: rgba(47,47,47,.74);
       --muted-2: rgba(47,47,47,.62);
 
-      /* Accent (olive) + variações para sombras/hover */
+      /* Accent */
       --accent:#6B7D5C;
       --accent-dark:#556647;
       --accent-soft: rgba(107,125,92,0.18);
@@ -53,7 +53,7 @@
       --h2: clamp(28px, 5.6vw, 44px);
       --p:  clamp(20px, 3.2vw, 26px);
 
-      /* Espaços: mais consistentes */
+      /* Espaços */
       --space-1: 8px;
       --space-2: 12px;
       --space-3: 16px;
@@ -61,14 +61,18 @@
       --space-5: 32px;
       --space-6: 44px;
 
-      /* espaço igual: top wreath ↔ título  e  botão ↔ bottom wreath */
+      /* wreath */
       --wreath-gap: clamp(10px, 2vw, 16px);
+
+      /* ✅ Separador: espaço simétrico antes/depois + tamanho */
+      --sep-gap: clamp(26px, 4.6vw, 40px);
+      --sep-size: clamp(62px, 10vw, 88px);
 
       /* Linha/altura */
       --lh-body: 1.6;
       --lh-title: 1.06;
 
-      /* “Design tokens” para sombras/bordas */
+      /* sombras/bordas */
       --ring: 0 0 0 4px rgba(107,125,92,0.18);
       --shadow-1: 0 10px 26px rgba(15,15,15,0.06);
       --shadow-2: 0 18px 50px rgba(15,15,15,0.10);
@@ -250,44 +254,38 @@
 
     /* ================= GRINALDAS (TOPO + FUNDO) ================= */
     .wreath-edge{
-      /* sempre visível e centrada */
       display: block;
       margin-left: auto;
       margin-right: auto;
-    
-      /* largura responsiva sem cortar (mantém proporção) */
+
       width: min(var(--wreath-inner-w), 100%);
       max-width: 100%;
       height: auto;
-    
-      /* cores originais do PNG */
+
       opacity: 1;
       filter: none;
       mix-blend-mode: normal;
-    
-      /* garante que nada “corta” a imagem */
-      object-fit: contain;      /* não é cover, e aqui praticamente nem é usado */
+
+      object-fit: contain;
       object-position: center;
-    
-      /* à frente do rebordo/noise */
+
       position: relative;
       z-index: 5;
-    
+
       pointer-events: none;
     }
 
-    /* fundo: mesma largura visual do topo + centrado, e com gap igual ao topo */
     .wreath-bottom{
       width: var(--wreath-inner-w);
       max-width: none;
-    
+
       position: relative;
       left: 50%;
       transform: translateX(-50%) scaleY(-1);
-    
+
       margin-top: var(--wreath-gap);
       margin-bottom: 0;
-    
+
       display: block;
     }
 
@@ -304,24 +302,24 @@
       transform:translateY(0);
     }
 
-    /* cabeçalho: um bocadinho mais “editorial” */
+    /* cabeçalho */
     .section:first-of-type{
       padding-top: clamp(14px, 3vw, 24px);
       padding-bottom: clamp(22px, 4vw, 36px);
     }
 
-    /* Separador */
+    /* ✅ Separador: espaço simétrico antes/depois */
     .section + .section{
       position:relative;
-      padding-top: calc(clamp(28px, 5.2vw, 54px) + 52px);
+      padding-top: calc(var(--sep-gap) + var(--sep-size) + var(--sep-gap));
     }
     .section + .section::before{
       content:"";
       position:absolute;
-      top: 12px;
+      top: var(--sep-gap);
       left: 50%;
-      width: clamp(70px, 11vw, 98px);
-      height: clamp(70px, 11vw, 98px);
+      width: var(--sep-size);
+      height: var(--sep-size);
       transform: translateX(-50%) rotate(90deg);
       background: url("separador leaves.png") center/contain no-repeat;
       opacity: 0.58;
@@ -345,6 +343,7 @@
       text-shadow: 0 1px 0 rgba(255,255,255,0.45);
     }
 
+    /* ✅ h2 iguais (Cerimónia / Copo de Água / RSVP) */
     h2{
       font-family:'Playfair Display', serif;
       font-size: var(--h2);
@@ -362,8 +361,9 @@
       color: var(--muted);
     }
 
+    /* ✅ data ligeiramente maior */
     .date{
-      font-size: clamp(18px, 3vw, 22px);
+      font-size: clamp(20px, 3.2vw, 24px);
       letter-spacing: 1.35px;
       color: rgba(47,47,47,.72);
       font-variant-caps: all-small-caps;
@@ -406,8 +406,9 @@
       color: rgba(47,47,47,.70);
     }
 
+    /* ✅ localizações ligeiramente mais pequenas */
     .location{
-      font-size: clamp(20px, 3.5vw, 28px);
+      font-size: clamp(18px, 3vw, 25px);
       margin: var(--space-2) 0 var(--space-1) 0;
       line-height: 1.22;
       color: rgba(47,47,47,.90);
@@ -594,7 +595,6 @@
         --content-col: min(520px, 100%);
       }
 
-      /* em mobile, uma grinalda um pouco mais baixa para não “pesar” */
       .wreath-edge{
         width: min(var(--wreath-inner-w), 100%);
         height: auto;
@@ -803,7 +803,6 @@
     openBtn.addEventListener("click", openInvite);
 
     // ========= Countdown =========
-    // NOTA: manter o offset +01:00 (horário de verão em setembro) é ok para Portugal.
     const weddingDate = new Date("2026-09-19T14:30:00+01:00").getTime();
 
     function pad2(n){ return String(n).padStart(2, "0"); }
