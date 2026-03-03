@@ -276,17 +276,20 @@
     }
 
     .wreath-bottom{
-      width: var(--wreath-inner-w);
-      max-width: none;
-
-      position: relative;
-      left: 50%;
-      transform: translateX(-50%) scaleY(-1);
-
+      display:block;
+      margin-left:auto;
+      margin-right:auto;
+    
+      width: min(var(--wreath-inner-w), 100%);
+      height:auto;
+    
+      transform: scaleY(-1);
+    
       margin-top: var(--wreath-gap);
       margin-bottom: 0;
-
-      display: block;
+    
+      position: relative;
+      z-index: 5;
     }
 
     /* Secções */
@@ -748,15 +751,12 @@
               </div>
 
               <button class="send-btn" type="submit" id="sendBtn">Enviar Resposta</button>
-
-              <!-- ✅ GRINALDA FUNDO -->
-              <img class="wreath-edge wreath-bottom bottom" src="top-leaves.png" alt="" aria-hidden="true">
-
+              
               <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
             </form>
           </div>
         </section>
-
+        <img class="wreath-edge wreath-bottom" src="top-leaves.png" alt="" aria-hidden="true">
       </div>
     </div>
   </div>
