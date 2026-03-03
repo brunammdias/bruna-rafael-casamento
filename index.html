@@ -106,15 +106,8 @@
 
     body.lock-scroll{ overflow: hidden; }
 
-    /* ✅ seleção de texto discreta */
-    ::selection{
-      background: rgba(107,125,92,0.18);
-    }
-
-    /* ✅ toque “app”: remove highlight azul no mobile */
-    a, button{
-      -webkit-tap-highlight-color: transparent;
-    }
+    ::selection{ background: rgba(107,125,92,0.18); }
+    a, button{ -webkit-tap-highlight-color: transparent; }
     button{ font-family: inherit; }
 
     /* ================= INTRO ================= */
@@ -234,7 +227,6 @@
         var(--bg);
     }
 
-    /* rebordo interno */
     .paper-sheet::before{
       content:"";
       position:absolute;
@@ -287,7 +279,6 @@
 
       position: relative;
       z-index: 5;
-
       pointer-events: none;
     }
 
@@ -300,7 +291,6 @@
       height:auto;
 
       transform: scaleY(-1);
-
       margin-top: var(--wreath-gap);
 
       position: relative;
@@ -320,7 +310,6 @@
       transform:translateY(0);
     }
 
-    /* cabeçalho */
     .section:first-of-type{
       padding-top: calc(clamp(14px, 3vw, 24px) + 10px);
       padding-bottom: clamp(22px, 4vw, 36px);
@@ -378,7 +367,6 @@
       color: var(--muted);
     }
 
-    /* ✅ números alinhados (não mexe no layout, só no “desenho” dos números) */
     .date,
     .time,
     .count-box span{
@@ -442,7 +430,7 @@
       color: rgba(47,47,47,.72);
     }
 
-    /* Links / Botões secundários */
+    /* Links */
     a{
       display:inline-flex;
       align-items:center;
@@ -514,9 +502,9 @@
     label{
       text-align:left;
       width: min(520px, 100%);
-      font-size: 15px;                  /* ligeiramente menor */
-      color: rgba(47,47,47,.60);        /* mais suave */
-      letter-spacing: .4px;   
+      font-size: 15px;
+      color: rgba(47,47,47,.60);
+      letter-spacing: .4px;
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -546,7 +534,6 @@
 
     textarea{ height: 140px; resize:none; }
 
-    /* CTA principal */
     .send-btn{
       margin-top: 8px;
       padding: 12px 28px;
@@ -632,38 +619,20 @@
         transform: translate(clamp(38px, 12vw, 70px), -10px) rotate(90deg) scaleX(-1);
       }
 
-      :root{
-        --content-col: min(520px, 100%);
-      }
+      :root{ --content-col: min(520px, 100%); }
 
-      .wreath-edge{
-        width: min(var(--wreath-inner-w), 100%);
-        height: auto;
-      }
+      .wreath-edge{ width: min(var(--wreath-inner-w), 100%); height: auto; }
 
-      .count-box{
-        border-radius: 13px;
-        padding: 11px 10px;
-      }
+      .count-box{ border-radius: 13px; padding: 11px 10px; }
 
-      a{
-        width: auto;
-        max-width: 100%;
-      }
-
-      .send-btn{
-        width: auto;
-        max-width: 100%;
-      }
+      a{ width: auto; max-width: 100%; }
+      .send-btn{ width: auto; max-width: 100%; }
     }
 
     /* ===== Form centrado (apenas DESKTOP) ===== */
     @media (min-width: 521px){
       .form-col{ justify-items: center; }
-      label{
-        width: 520px;
-        max-width: 100%;
-      }
+      label{ width: 520px; max-width: 100%; }
       input, select, textarea{ width: 100%; }
     }
 
@@ -692,10 +661,8 @@
     <div class="paper-sheet" role="main">
       <div class="paper-inner">
 
-        <!-- GRINALDA TOPO -->
         <img class="wreath-edge wreath-top" src="top-leaves.png" alt="" aria-hidden="true">
 
-        <!-- CABEÇALHO -->
         <section class="section" aria-label="Cabeçalho">
           <div class="content-col">
             <h1 id="mainTitle">Bruna &amp; Rafael</h1>
@@ -718,7 +685,6 @@
           </div>
         </section>
 
-        <!-- CERIMÓNIA -->
         <section class="section" aria-label="Cerimónia">
           <div class="content-col">
             <h2>Cerimónia</h2>
@@ -744,7 +710,6 @@
           </div>
         </section>
 
-        <!-- COPO DE ÁGUA -->
         <section class="section" aria-label="Copo de Água">
           <div class="content-col">
             <h2>Copo de Água</h2>
@@ -770,7 +735,6 @@
           </div>
         </section>
 
-        <!-- RSVP -->
         <section class="section" aria-label="RSVP">
           <div class="content-col">
             <h2>Podemos contar convosco?</h2>
@@ -827,15 +791,7 @@
         sec.classList.add("visible");
       });
     }
-    
-    function revealSectionsWithStagger(){
-      const sections = document.querySelectorAll(".section");
-      sections.forEach((sec, i) => {
-        sec.style.transitionDelay = `${i * 90}ms`;
-        sec.classList.add("visible");
-      });
-    }
-    
+
     function openInvite(){
       setTimeout(()=> envelope.classList.add("exit"), 80);
 
@@ -848,14 +804,13 @@
 
         revealSectionsWithStagger();
 
-        // foco (acessibilidade)
         const title = document.getElementById("mainTitle");
         if (title){
           title.setAttribute("tabindex", "-1");
           title.focus({ preventScroll: true });
           title.removeAttribute("tabindex");
         }
-        
+
         updateCountdown();
         setInterval(updateCountdown, 60_000);
       }, 1050);
@@ -865,17 +820,12 @@
 
     // ========= Countdown =========
     const weddingDate = new Date("2026-09-19T14:30:00+01:00").getTime();
-
     function pad2(n){ return String(n).padStart(2, "0"); }
 
     function updateCountdown(){
-      const now = Date.now();
-      let distance = weddingDate - now;
-
       const daysEl = document.getElementById("days");
       const hoursEl = document.getElementById("hours");
       const minutesEl = document.getElementById("minutes");
-
       if(!daysEl || !hoursEl || !minutesEl) return;
 
       const now = Date.now();
@@ -901,9 +851,9 @@
       minutesEl.textContent = pad2(minutes);
     }
 
-    // ========= RSVP (simulado por agora) =========
+    // ========= RSVP (Google Apps Script) =========
     const RSVP_ENDPOINT = "https://script.google.com/macros/s/AKfycbxhbwsWlZRpkVJxD6YcZNKhSLghis2PsYtHVjGx2F372i0R_p1yjx4Qy-PGZCYvhvoeEQ/exec";
-    
+
     const form = document.getElementById("rsvpForm");
     const btn  = document.getElementById("sendBtn");
     const msg  = document.getElementById("formMsg");
@@ -922,10 +872,12 @@
         e.preventDefault();
         msg.textContent = "";
         btn.disabled = true;
+
         const original = btn.textContent;
         btn.textContent = "A enviar…";
-  
+
         try{
+          // FormData + campos extra (úteis no Sheets)
           const data = new FormData(form);
           data.append("ts", new Date().toISOString());
           data.append("page", window.location.href);
@@ -948,17 +900,18 @@
           if (!result.ok) {
             throw new Error("Resposta não-ok do servidor");
           }
-          
-        msg.textContent = "Resposta registada. Obrigado! ✨";
-        form.reset();
-      }catch(err){
-        msg.textContent = "Não foi possível enviar. Tenta novamente, por favor.";
-      }finally{
-        btn.disabled = false;
-        btn.textContent = original;
-      }
-    });
-   }
+
+          msg.textContent = "Resposta registada. Obrigado! ✨";
+          form.reset();
+        } catch (err) {
+          // Timeout/Abort ou erro normal
+          msg.textContent = "Não foi possível enviar agora. Tenta novamente, por favor.";
+        } finally {
+          btn.disabled = false;
+          btn.textContent = original;
+        }
+      });
+    }
   </script>
 </body>
 </html>
