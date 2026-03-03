@@ -524,7 +524,7 @@
 
     /* CTA principal */
     .send-btn{
-      margin-top: 8;
+      margin-top: 8px; /* ✅ tinha "8" sem unidade */
       padding: 14px 34px;
       background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 92%, white), var(--accent-dark));
       color:white;
@@ -541,9 +541,7 @@
       box-shadow: 0 20px 42px rgba(15,15,15,0.14);
       filter: brightness(1.02);
     }
-    .send-btn:active{
-      transform: translateY(-1px);
-    }
+    .send-btn:active{ transform: translateY(-1px); }
     .send-btn:focus-visible{
       outline: none;
       box-shadow: 0 0 0 4px rgba(255,255,255,0.7), 0 0 0 8px rgba(107,125,92,0.28);
@@ -555,25 +553,25 @@
       box-shadow:none;
       filter:none;
     }
-
+    
+    /* ✅ mensagem do form (com chaves bem fechadas) */
     .form-msg{
       margin: 6px 0 0 0;
       opacity: .9;
       color: rgba(47,47,47,.72);
-      
+      min-height: 22px;
+    }
     .form-msg:empty{
       display:none;
     }
-      
-    /* ✅ quando houver mensagem, aparece com espaço “normal” */
     .form-msg:not(:empty){
       display:block;
       margin-top: 10px;
-      min-height: 22px;
     }
-
-    /* Mobile */
+    
+    /* ================= MOBILE ================= */
     @media (max-width:520px){
+    
       .envelope-real{
         border-radius: 12px;
         width: min(92vw, 520px);
@@ -586,14 +584,12 @@
         padding: 0 14px;
       }
     
-      /* hotspot mantém-se centrado, mas com tamanho adaptável */
       .seal-hotspot{
         top: 56%;
         width: clamp(140px, 38vw, 170px);
         height: clamp(140px, 38vw, 170px);
       }
     
-      /* ✅ folhas responsivas (em vez de valores fixos) */
       .seal-olive{
         width: clamp(46px, 13vw, 64px);
         opacity: 0.82;
@@ -612,28 +608,23 @@
         left: 50%;
         transform: translate(clamp(38px, 12vw, 70px), -10px) rotate(90deg) scaleX(-1);
       }
-    }
-
+    
       :root{
         --content-col: min(520px, 100%);
       }
-
+    
       .wreath-edge{
         width: min(var(--wreath-inner-w), 100%);
         height: auto;
       }
-
+    
       .count-box{
         border-radius: 13px;
         padding: 11px 10px;
       }
-
-      a{
-        width: min(520px, 100%);
-      }
-      .send-btn{
-        width: min(520px, 100%);
-      }
+    
+      a{ width: min(520px, 100%); }
+      .send-btn{ width: min(520px, 100%); }
     }
 
     @media (prefers-reduced-motion: reduce){
