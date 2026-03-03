@@ -480,7 +480,7 @@
       margin-top: var(--space-5);
       display:grid;
       gap: 12px;
-      justify-items:center;
+      justify-items: center;
     }
 
     .form-col{
@@ -632,7 +632,26 @@
       .send-btn{
         width: auto;
         max-width: 100%;
+      }
+    }
 
+    /* ===== Form centrado (apenas DESKTOP) ===== */
+    @media (min-width: 521px){
+      .form-col{
+        justify-items: center; /* centra os labels dentro da coluna */
+      }
+    
+      label{
+        width: 520px;   /* mesma largura real dos inputs */
+        max-width: 100%;
+      }
+    
+      input, select, textarea{
+        width: 100%;    /* ocupa toda a largura do label */
+      }
+    }
+    
+    /* ✅ fora do mobile */
     @media (prefers-reduced-motion: reduce){
       .section, .envelope-real.exit{ transition:none !important; animation:none !important; }
       .send-btn, a, input, select, textarea{ transition:none !important; }
@@ -739,7 +758,7 @@
         <!-- RSVP -->
         <section class="section" aria-label="RSVP">
           <div class="content-col">
-            <h2>Podemos contar convosco?</h2>
+            <h2>Podemos contar com a vossa presença?</h2>
 
             <form id="rsvpForm">
               <div class="form-col">
