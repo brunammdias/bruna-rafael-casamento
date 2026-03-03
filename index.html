@@ -852,7 +852,7 @@
     }
 
     // ========= RSVP (Google Apps Script) =========
-    const RSVP_ENDPOINT = "https://script.google.com/macros/s/AKfycbxhbwsWlZRpkVJxD6YcZNKhSLghis2PsYtHVjGx2F372i0R_p1yjx4Qy-PGZCYvhvoeEQ/exec";
+    const RSVP_ENDPOINT = "https://script.google.com/macros/s/AKfycbydiY1aVUdEHY0UC9Z8OWy4J3_TdgAhFGtls-SMFVfxCpsWAOch0pnEVa4hCSr92yOu_w/exec";
 
     const form = document.getElementById("rsvpForm");
     const btn  = document.getElementById("sendBtn");
@@ -904,8 +904,9 @@
           msg.textContent = "Resposta registada. Obrigado! ✨";
           form.reset();
         } catch (err) {
-          // Timeout/Abort ou erro normal
+          console.error("RSVP erro:", err);
           msg.textContent = "Não foi possível enviar. Tenta novamente, por favor.";
+        }
         } finally {
           btn.disabled = false;
           btn.textContent = original;
