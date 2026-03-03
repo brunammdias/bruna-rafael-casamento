@@ -827,7 +827,15 @@
         sec.classList.add("visible");
       });
     }
-
+    
+    function revealSectionsWithStagger(){
+      const sections = document.querySelectorAll(".section");
+      sections.forEach((sec, i) => {
+        sec.style.transitionDelay = `${i * 90}ms`;
+        sec.classList.add("visible");
+      });
+    }
+    
     function openInvite(){
       setTimeout(()=> envelope.classList.add("exit"), 80);
 
@@ -842,16 +850,18 @@
 
         // foco (acessibilidade)
         const title = document.getElementById("mainTitle");
-        title.setAttribute("tabindex", "-1");
-        title.focus({ preventScroll: true });
-        title.removeAttribute("tabindex");
-
+        if (title){
+          title.setAttribute("tabindex", "-1");
+          title.focus({ preventScroll: true });
+          title.removeAttribute("tabindex");
+        }
+        
         updateCountdown();
         setInterval(updateCountdown, 60_000);
       }, 1050);
     }
 
-    openBtn.addEventListener("click", openInvite);
+    if (openBtn) openBtn.addEventListener("click", openInvite);
 
     // ========= Countdown =========
     const weddingDate = new Date("2026-09-19T14:30:00+01:00").getTime();
@@ -867,6 +877,9 @@
       const minutesEl = document.getElementById("minutes");
 
       if(!daysEl || !hoursEl || !minutesEl) return;
+
+      const now = Date.now();
+      let distance = weddingDate - now;
 
       if(distance <= 0){
         daysEl.textContent = "0";
@@ -889,19 +902,53 @@
     }
 
     // ========= RSVP (simulado por agora) =========
+    const RSVP_ENDPOINT = "https://script.google.com/macros/s/AKfycbxhbwsWlZRpkVJxD6YcZNKhSLghis2PsYtHVjGx2F372i0R_p1yjx4Qy-PGZCYvhvoeEQ/exec";
+    
     const form = document.getElementById("rsvpForm");
     const btn  = document.getElementById("sendBtn");
     const msg  = document.getElementById("formMsg");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      msg.textContent = "";
-      btn.disabled = true;
-      const original = btn.textContent;
-      btn.textContent = "A enviar…";
+    function withTimeout(promise, ms){
+      const controller = new AbortController();
+      const timer = setTimeout(()=> controller.abort(), ms);
+      return {
+        signal: controller.signal,
+        run: promise(controller.signal).finally(()=> clearTimeout(timer))
+      };
+    }
 
-      try{
-        await new Promise(r => setTimeout(r, 900));
+    if (form && btn && msg) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        msg.textContent = "";
+        btn.disabled = true;
+        const original = btn.textContent;
+        btn.textContent = "A enviar…";
+  
+        try{
+          const data = new FormData(form);
+          data.append("ts", new Date().toISOString());
+          data.append("page", window.location.href);
+
+          const { signal, run } = withTimeout(async (signal) => {
+            const res = await fetch(RSVP_ENDPOINT, {
+              method: "POST",
+              body: data,
+              mode: "cors",
+              signal
+            });
+
+            // alguns scripts respondem com 302/HTML; outros com JSON — vamos ser tolerantes
+            const text = await res.text();
+            return { ok: res.ok, text };
+          }, 12000);
+
+          const result = await run;
+
+          if (!result.ok) {
+            throw new Error("Resposta não-ok do servidor");
+          }
+          
         msg.textContent = "Resposta registada. Obrigado! ✨";
         form.reset();
       }catch(err){
@@ -911,6 +958,7 @@
         btn.textContent = original;
       }
     });
+   }
   </script>
 </body>
 </html>
