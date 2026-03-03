@@ -44,6 +44,7 @@
 
       --paper-pad-x: clamp(18px, 4vw, 34px);
       --paper-pad-y: clamp(26px, 5.2vw, 44px);
+      --wreath-inner-w: calc(100% - (var(--paper-pad-x) * 2) - 20px);
 
       --content-col: min(560px, 100%);
 
@@ -277,24 +278,22 @@
 
     /* fundo: mesma largura visual do topo + centrado, e com gap igual ao topo */
     .wreath-bottom{
-      /* mesma largura visual do topo */
       width: var(--wreath-inner-w);
-      max-width: none;              /* <- isto é o fix do “fica mais curto” */
+      max-width: none;
     
-      /* centragem real */
       position: relative;
       left: 50%;
       transform: translateX(-50%) scaleY(-1);
     
-      /* gap (igual ao topo, compensando o gap do grid do form) */
-      margin-top: calc(var(--wreath-gap) - 12px);
+      margin-top: var(--wreath-gap);
+      margin-bottom: 0;
     
       display: block;
     }
 
     /* Secções */
     .section{
-      padding: clamp(28px, 5.2vw, 54px) 0;
+      padding: clamp(24px, 4.5vw, 46px) 0;
       opacity:0;
       transform:translateY(22px);
       transition: opacity .9s ease, transform .9s ease;
