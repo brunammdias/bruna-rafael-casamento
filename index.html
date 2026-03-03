@@ -64,7 +64,7 @@
       /* wreath */
       --wreath-gap: clamp(10px, 2vw, 16px);
 
-      /* ✅ Separador: espaço simétrico antes/depois + tamanho */
+      /* Separador */
       --sep-gap: clamp(14px, 2.8vw, 22px);
       --sep-size: clamp(62px, 10vw, 88px);
 
@@ -86,12 +86,17 @@
     html{ -webkit-text-size-adjust:100%; text-rendering:optimizeLegibility; }
     body{ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+    /* ✅ polimento tipográfico (não altera layout) */
     body{
       margin:0;
       font-family: 'Cormorant Garamond', serif;
       color: var(--ink);
       text-align:center;
       overflow-x:hidden;
+
+      font-kerning: normal;
+      font-feature-settings: "kern" 1, "liga" 1, "clig" 1;
+
       background:
         radial-gradient(circle at 18% 18%, rgba(0,0,0,0.02), transparent 42%),
         radial-gradient(circle at 82% 74%, rgba(0,0,0,0.018), transparent 46%),
@@ -100,6 +105,17 @@
     }
 
     body.lock-scroll{ overflow: hidden; }
+
+    /* ✅ seleção de texto discreta */
+    ::selection{
+      background: rgba(107,125,92,0.18);
+    }
+
+    /* ✅ toque “app”: remove highlight azul no mobile */
+    a, button{
+      -webkit-tap-highlight-color: transparent;
+    }
+    button{ font-family: inherit; }
 
     /* ================= INTRO ================= */
     .intro{
@@ -279,14 +295,14 @@
       display:block;
       margin-left:auto;
       margin-right:auto;
-    
+
       width: min(calc(var(--wreath-inner-w) * 0.97), 100%);
       height:auto;
-    
+
       transform: scaleY(-1);
-    
+
       margin-top: var(--wreath-gap);
-    
+
       position: relative;
       z-index: 5;
     }
@@ -310,7 +326,7 @@
       padding-bottom: clamp(22px, 4vw, 36px);
     }
 
-    /* ✅ Separador: espaço simétrico antes/depois */
+    /* Separador */
     .section + .section{
       position:relative;
       padding-top: calc(var(--sep-gap) + var(--sep-size) + var(--sep-gap));
@@ -345,7 +361,6 @@
       text-shadow: 0 1px 0 rgba(255,255,255,0.45);
     }
 
-    /* ✅ h2 iguais (Cerimónia / Copo de Água / RSVP) */
     h2{
       font-family:'Playfair Display', serif;
       font-size: var(--h2);
@@ -363,7 +378,14 @@
       color: var(--muted);
     }
 
-    /* ✅ data ligeiramente maior */
+    /* ✅ números alinhados (não mexe no layout, só no “desenho” dos números) */
+    .date,
+    .time,
+    .count-box span{
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+    }
+
     .date{
       font-size: clamp(22px, 3.6vw, 26px);
       letter-spacing: 1.2px;
@@ -408,7 +430,6 @@
       color: rgba(47,47,47,.70);
     }
 
-    /* ✅ localizações ligeiramente mais pequenas */
     .location{
       font-size: clamp(18px, 3vw, 25px);
       margin: var(--space-2) 0 var(--space-1) 0;
@@ -524,12 +545,12 @@
 
     /* CTA principal */
     .send-btn{
-      margin-top: 8px; 
-      padding: 12px 28px; 
+      margin-top: 8px;
+      padding: 12px 28px;
       background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 92%, white), var(--accent-dark));
       color:white;
       border:none;
-      font-size:16px;  
+      font-size:16px;
       cursor:pointer;
       border-radius: 14px;
       transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
@@ -555,81 +576,78 @@
       box-shadow:none;
       filter:none;
     }
-    
-    /* ✅ mensagem do form (com chaves bem fechadas) */
+
     .form-msg{
       margin: 6px 0 0 0;
       opacity: .9;
       color: rgba(47,47,47,.72);
       min-height: 22px;
     }
-    .form-msg:empty{
-      display:none;
-    }
+    .form-msg:empty{ display:none; }
     .form-msg:not(:empty){
       display:block;
       margin-top: 10px;
     }
-    
+
     /* ================= MOBILE ================= */
     @media (max-width:520px){
-    
+
       .envelope-real{
         border-radius: 12px;
         width: min(92vw, 520px);
         aspect-ratio: 3 / 2;
       }
-    
+
       .intro-text{
         top: 14px;
         font-size: 12px;
         padding: 0 14px;
       }
-    
+
       .seal-hotspot{
         top: 56%;
         width: clamp(140px, 38vw, 170px);
         height: clamp(140px, 38vw, 170px);
       }
-    
+
       .seal-olive{
         width: clamp(46px, 13vw, 64px);
         opacity: 0.82;
         filter: brightness(92%) contrast(130%);
         mix-blend-mode: multiply;
       }
-    
+
       .seal-olive.left{
         top: 56%;
         left: 50%;
         transform: translate(calc(-1 * clamp(92px, 25vw, 140px)), -10px) rotate(-90deg);
       }
-    
+
       .seal-olive.right{
         top: 56%;
         left: 50%;
         transform: translate(clamp(38px, 12vw, 70px), -10px) rotate(90deg) scaleX(-1);
       }
-    
+
       :root{
         --content-col: min(520px, 100%);
       }
-    
+
       .wreath-edge{
         width: min(var(--wreath-inner-w), 100%);
         height: auto;
       }
-    
+
       .count-box{
         border-radius: 13px;
         padding: 11px 10px;
       }
-    
+
       a{
         width: auto;
         max-width: 100%;
       }
-      
+
       .send-btn{
         width: auto;
         max-width: 100%;
@@ -638,21 +656,14 @@
 
     /* ===== Form centrado (apenas DESKTOP) ===== */
     @media (min-width: 521px){
-      .form-col{
-        justify-items: center; /* centra os labels dentro da coluna */
-      }
-    
+      .form-col{ justify-items: center; }
       label{
-        width: 520px;   /* mesma largura real dos inputs */
+        width: 520px;
         max-width: 100%;
       }
-    
-      input, select, textarea{
-        width: 100%;    /* ocupa toda a largura do label */
-      }
+      input, select, textarea{ width: 100%; }
     }
-    
-    /* ✅ fora do mobile */
+
     @media (prefers-reduced-motion: reduce){
       .section, .envelope-real.exit{ transition:none !important; animation:none !important; }
       .send-btn, a, input, select, textarea{ transition:none !important; }
@@ -678,7 +689,7 @@
     <div class="paper-sheet" role="main">
       <div class="paper-inner">
 
-        <!-- ✅ GRINALDA TOPO -->
+        <!-- GRINALDA TOPO -->
         <img class="wreath-edge wreath-top" src="top-leaves.png" alt="" aria-hidden="true">
 
         <!-- CABEÇALHO -->
@@ -788,11 +799,12 @@
               </div>
 
               <button class="send-btn" type="submit" id="sendBtn">Enviar Resposta</button>
-              
+
               <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
             </form>
           </div>
         </section>
+
         <img class="wreath-edge wreath-bottom" src="top-leaves.png" alt="" aria-hidden="true">
       </div>
     </div>
@@ -831,7 +843,6 @@
         title.focus({ preventScroll: true });
         title.removeAttribute("tabindex");
 
-        // ✅ countdown inicia aqui
         updateCountdown();
         setInterval(updateCountdown, 60_000);
       }, 1050);
