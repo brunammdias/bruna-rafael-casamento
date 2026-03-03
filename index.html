@@ -904,9 +904,9 @@
           msg.textContent = "Resposta registada. Obrigado! ✨";
           form.reset();
         } catch (err) {
+          // Timeout/Abort ou erro normal
           console.error("RSVP erro:", err);
           msg.textContent = "Não foi possível enviar. Tenta novamente, por favor.";
-        }
         } finally {
           btn.disabled = false;
           btn.textContent = original;
