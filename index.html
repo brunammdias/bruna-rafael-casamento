@@ -623,9 +623,14 @@
         padding: 11px 10px;
       }
     
-      a{ width: min(520px, 100%); }
-      .send-btn{ width: min(520px, 100%); }
-    }
+      a{
+        width: auto;
+        max-width: 100%;
+      }
+      
+      .send-btn{
+        width: auto;
+        max-width: 100%;
 
     @media (prefers-reduced-motion: reduce){
       .section, .envelope-real.exit{ transition:none !important; animation:none !important; }
