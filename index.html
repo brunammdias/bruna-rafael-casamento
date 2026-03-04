@@ -854,37 +854,65 @@
     // ========= RSVP (Google Apps Script) =========
     const RSVP_ENDPOINT = "https://script.google.com/macros/s/AKfycbydiY1aVUdEHY0UC9Z8OWy4J3_TdgAhFGtls-SMFVfxCpsWAOch0pnEVa4hCSr92yOu_w/exec";
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-    
-      msg.textContent = "";
-      btn.disabled = true;
-      const original = btn.textContent;
-      btn.textContent = "A enviar…";
-    
-      try {
-        const fd = new FormData(form);
-        fd.append("ts", new Date().toISOString());
-        fd.append("page", location.href);
-    
-        await fetch(RSVP_ENDPOINT, {
-          method: "POST",
-          mode: "no-cors",
-          body: fd
-        });
-    
-        // ✅ como não podemos ler a resposta, assumimos sucesso
-        msg.textContent = "Resposta registada. Obrigado! ✨";
-        form.reset();
-    
-      } catch (err) {
-        console.error(err);
-        msg.textContent = "Não foi possível enviar. Tenta novamente, por favor.";
-      } finally {
-        btn.disabled = false;
-        btn.textContent = original;
-      }
-    });
+    const form = document.getElementById("rsvpForm");
+    const btn  = document.getElementById("sendBtn");
+    const msg  = document.getElementById("formMsg");
+
+    function withTimeout(promise, ms){
+      const controller = new AbortController();
+      const timer = setTimeout(()=> controller.abort(), ms);
+      return {
+        signal: controller.signal,
+        run: promise(controller.signal).finally(()=> clearTimeout(timer))
+      };
+    }
+
+    if (form && btn && msg) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        msg.textContent = "";
+        btn.disabled = true;
+
+        const original = btn.textContent;
+        btn.textContent = "A enviar…";
+
+        try{
+          // FormData + campos extra (úteis no Sheets)
+          const data = new FormData(form);
+          data.append("ts", new Date().toISOString());
+          data.append("page", window.location.href);
+
+          const { signal, run } = withTimeout(async (signal) => {
+            const res = await fetch(RSVP_ENDPOINT, {
+              method: "POST",
+              body: data,
+              mode: "cors",
+              signal
+            });
+
+            // alguns scripts respondem com 302/HTML; outros com JSON — vamos ser tolerantes
+            const text = await res.text();
+            return { ok: res.ok, text };
+          }, 12000);
+
+          const result = await run;
+
+          if (!result.ok) {
+            throw new Error("Resposta não-ok do servidor");
+          }
+
+          msg.textContent = "Resposta registada. Obrigado! ✨";
+          form.reset();
+        } catch (err) {
+          // Timeout/Abort ou erro normal
+          console.error("RSVP erro:", err);
+          msg.textContent = "Não foi possível enviar. Tenta novamente, por favor.";
+        } finally {
+          btn.disabled = false;
+          btn.textContent = original;
+        }
+      });
+    }
   </script>
 </body>
 </html>
