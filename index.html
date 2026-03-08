@@ -375,12 +375,25 @@
     }
 
     .date{
-      font-size: clamp(22px, 3.6vw, 26px);
+      font-size: clamp(20px, 2.8vw, 24px);
       letter-spacing: 1.2px;
       color: rgba(47,47,47,.72);
       font-variant-caps: all-small-caps;
       margin-top: 8px;
       margin-bottom: 18px;
+    }
+
+    .rsvp-deadline{
+      font-size: clamp(17px, 2.6vw, 20px);
+      color: rgba(47,47,47,.68);
+      margin-top: -4px;
+      margin-bottom: 26px;
+      line-height: 1.5;
+    }
+    
+    .deadline-date{
+      color: var(--accent);
+      font-weight: 500;
     }
 
     /* Countdown */
@@ -739,6 +752,11 @@
           <div class="content-col">
             <h2>Podemos contar convosco?</h2>
 
+            <p class="rsvp-deadline">
+            Agradecemos a confirmação de presença até ao dia 
+            <span class="deadline-date">1 de Agosto de 2026</span>.
+            </p>
+
             <form id="rsvpForm">
               <div class="form-col">
                 <label>
@@ -753,7 +771,9 @@
 
                 <label>
                   Informações Adicionais
-                  <textarea name="acompanhantes" placeholder="Nome dos acompanhantes"></textarea>
+                  <textarea name="acompanhantes" placeholder="Nomes dos acompanhantes
+                  Idade das crianças (se aplicável)
+                  Intolerâncias alimentares"></textarea>
                 </label>
 
                 <label>
